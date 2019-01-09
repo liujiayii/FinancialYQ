@@ -1,0 +1,51 @@
+package com.fendo.entity;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**
+ * @author 
+ * @return
+ * @author cc
+ */
+public class RuleVo implements Serializable{
+ private String id;
+ private String salesId;
+ private String time;
+ private double extract;
+public String getId() {
+	return id;
+}
+public void setId(String id) {
+	this.id = id;
+}
+public String getSalesId() {
+	return salesId;
+}
+public void setSalesId(String salesId) {
+	this.salesId = salesId;
+}
+public String getTime() {
+	return time;
+}
+public void setTime(String time) {
+	this.time = time;
+}
+public double getExtract() {
+	return extract;
+}
+public void setExtract(double extract) {
+	this.extract = extract;
+}
+@Override
+public String toString() {
+	return "RuleVo [id=" + id + ", salesId=" + salesId + ", time=" + time + ", extract=" + extract + "]";
+}
+
+
+
+
+
+ 
+ 
+}

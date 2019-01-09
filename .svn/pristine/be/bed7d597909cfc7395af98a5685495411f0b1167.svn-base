@@ -1,0 +1,26 @@
+package com.fendo.dao;
+
+import java.util.List;
+
+import com.fendo.entity.Finance;
+import com.fendo.entity.Income;
+import com.fendo.entity.IncomeItem;
+import com.fendo.entity.IncomeVo;
+import com.fendo.entity.Staff;
+/**
+ * 收入
+ * @author han
+ *
+ * @createDate 2018年8月2日-下午4:14:08
+ */
+public interface IncomeDao {
+	
+	/*列表显示收入所有信息*/
+	List<Income> findAllType();
+	/*添加收入信息*/
+	int toAddIncome(Income income);
+	/*通过id查询*/
+	Income findById1(long id);
+	/*修改通过状态*/
+	int updatePasssr(Income income);
+}

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.fendo.dao.BranchOfficeDao">
+		<select id="getSalesMan" resultType="com.fendo.entity.SalesMan">
+    		 select s.* from t_salesman s 
+   			 left join t_branch_office b on s.district_id=b.area_code
+    		 where b.area=#{area}
+  		  </select>
+	<!-- 分公司查询-->
+	<select id="getBranchOffice" resultType="com.fendo.entity.BranchOffice">
+		select * from
+		t_branch_office
+	</select>
+	<!-- 查询地区名称 -->
+	<select id="findArea" resultType="com.fendo.entity.BranchOffice">
+		select * from
+		t_branch_office
+		
+	</select>
+	<select id="findArea2" resultType="com.fendo.entity.BranchOffice">
+		select * from
+		t_branch_office
+		where area_code=#{areacode}
+	</select>
+	<select id="findArea3" resultType="com.fendo.entity.BranchOffice">
+		select * from
+		t_branch_office
+		where area=#{area}
+	</select>
+	<!-- 通过地区和月数查询业务员的提成 -->
+	<select id="findByAreaAndMonth" resultType="com.fendo.entity.BranchOffice">
+	<!-- 通过地区t_branch_office 表中的 area,对应t_salesman中的district_id(通过地区id查到地区),
+		以及风控表t_finance的time(用创建表的间隔时间),
+		查找到 t_salesman业务员表中的业务员姓名,职位,以及t_deduct(提成表)中的提成(deduct)-->
+		
+	</select>
+	<!-- 添加分公司 -->
+	<insert id="addBranchOffice" parameterType="com.fendo.entity.BranchOffice">
+		insert into
+		t_branch_office(id,area,area_code,create_time)
+		values(null,#{area},#{area_code},now())
+	</insert>
+	<!-- 修改分公司 -->
+	<update id="updateBranchOffice" parameterType="com.fendo.entity.BranchOffice">
+		update t_branch_office
+		<set>
+			<if test="area !=null and area !=''">area=#{area},</if>
+			<if test="area_code !=null and area_code !=''">area_code=#{area_code}</if>
+		</set>
+		where id=#{id}
+	</update>
+	<!-- 修改数据 通过id查询显示 -->
+	<select id="findBranchById" resultType="com.fendo.entity.BranchOffice">
+		select * from t_branch_office where id=#{id}
+	</select>
+</mapper>

@@ -1,0 +1,6 @@
+username=financial
+password=TTSfdVirDrrcTv79
+driver=com.mysql.jdbc.Driver
+url=jdbc:mysql://rm-2zelj4347url7opac.mysql.rds.aliyuncs.com:3306/financial?useUnicode=true&characterEncoding=UTF-8
+#initPoolSize=5
+#maxPoolSize=10

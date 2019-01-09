@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fendo.dao.SalaryStatisiceDao">
+	<!-- 信息查询 工资表查询列表显示 -->
+	
+	<select id="findAllSalaryStatisiceByMonth" resultType="com.fendo.entity.SalaryStatistics">		
+		 SELECT * 
+		 from 
+		 t_salary_statistics 
+		 WHERE `month` =#{month} AND `year` =#{year}	
+	</select>
+	<!-- 通过员工id将罚款金额加30 -->
+	<update id="penaltyMoneyAdd">		
+		 UPDATE t_salary_statistics 
+		 SET penalty_money = penalty_money+30 
+		 WHERE staff_id = #{staff_id}
+		 AND `year`=#{year} AND `month`=#{month}
+	</update>
+</mapper>

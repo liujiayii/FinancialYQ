@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.fendo.dao.SalesmanDao">
+	<!--     查询某地区业务员数据 -->
+    <select id="getSalesMan" resultType="com.fendo.entity.SalesmanVo">
+    	select s.*,b.area from t_salesman s 
+     left join t_branch_office b on s.district_id=b.area_code
+    	 where b.area=#{n}
+    </select>
+    <!--     查询某地区业务员数据根据id -->
+    <select id="getSalesManByid" resultType="com.fendo.entity.SalesMan">
+    	select * from t_salesman s 
+     
+    	 where s.id=#{id}
+    </select>
+    <select id="getSalesNameById" resultType="com.fendo.entity.SalesMan">
+    	select name from t_salesman where id=#{id}
+    </select>
+    <!-- 通过业务员姓名查询业务员信息,返回一个Vo实体类 -->
+    <select id="findSaleByName" resultType="com.fendo.entity.SalesmanVo" parameterType="java.lang.String">
+    	select s.id,s.name,b.area,s.duty,s.phone,s.create_time,s.state from t_salesman s,t_branch_office b
+    	where name=#{name} and s.district_id = b.id
+    </select>
+     <!-- 通过业务员姓名查询业务员信息,返回一个Vo实体类 -->
+    <select id="findSaleByjbnumber" resultType="com.fendo.entity.SalesMan" >
+    	select * from t_salesman 
+    	where job_number=#{jbnumber}
+    </select>
+    
+  	<!-- 	增加一条数据	 -->
+	  <insert id="toAddSaleMan" parameterType="com.fendo.entity.SalesMan">
+	 	insert into t_salesman(id,name,district_id,duty,phone,create_time,state,job_number)
+	  	values(null,#{name},#{district_id},#{duty},#{phone},now(),#{state},#{job_number})
+	  	
+	  </insert>
+  
+ 	<!--  修改数据 -->
+ 	<update id="toUpdateSaleMan">
+ 		UPDATE t_salesman  
+ 		<set>
+ 	  
+ 			<if test="t.name !=null and t.name != '' ">name=#{t.name},</if>
+ 			<if test="t.district_id !=null and t.district_id != '' ">district_id=#{t.district_id},</if>
+ 			<if test="t.duty !=null and t.duty!='' ">duty=#{t.duty},</if>
+ 			<if test="t.phone !=null and t.phone !='' ">phone=#{t.phone},</if>
+ 			<if test="t.create_time !=null and t.create_time !='' ">create_time=#{t.create_time},</if>
+ 		</set>
+ 		WHERE id =#{t.id}
+ 	</update>
+ 
+ 	<!--  修改数据 -->
+ 	<update id="toUpdateSaleManstats">
+ 	UPDATE t_salesman  
+ 	 <set>
+ 	  state= case when state=0 then 1
+				when state=1 then 0 end
+ 		
+
+ 	</set>
+ 	WHERE id =#{id}
+ </update>
+ <select id="getSalesVo" resultType="com.fendo.entity.SalesVo">
+ SELECT s.state state,f.audit_id type,f.is_overdue statetwo,f.is_payment stateone,f.money money,f.day day,s.duty duty
+  FROM  t_finance f LEFT JOIN t_salesman s on s.id=f.s_id 
+  WHERE f.time like #{time} and f.s_id=#{idd}
+ 
+</select>
+ 	
+ 	
+ 	<!-- 删除业务员 -->
+ 	<delete id="deleteSaleById" parameterType="java.lang.String">
+ 		delete from t_salesman where id = #{id}
+ 	</delete>
+
+ 
+ <select id="getFinanceVo" resultType="com.fendo.entity.FinanceVo">
+ SELECT sum(f.money) sum
+  FROM t_salesman s LEFT JOIN t_finance f on s.id=f.s_id 
+  WHERE f.time like #{time} and f.s_id=#{ids} and s.state=1 
+  and f.is_overdue=0 and f.is_payment=0 and s.district_id=#{d}
+ 
+ </select>
+ <select id="getSalesVos" resultType="com.fendo.entity.FinanceVo">
+ SELECT (sum(f.money)) money 
+  FROM t_salesman s LEFT JOIN t_finance f on s.id=f.s_id 
+  WHERE f.time like #{time} and f.s_id=#{ids} and s.state=0 and f.audit_id=0
+  and f.is_overdue=0 and f.is_payment=0
+ 
+ </select>
+ 
+ <select id="getSalesVosone" resultType="com.fendo.entity.FinanceVo">
+ SELECT (sum(f.money)) money
+  FROM t_salesman s LEFT JOIN t_finance f on s.id=f.s_id 
+  WHERE f.time like #{time} and f.s_id=#{ids} and s.state=0 and f.audit_id=1
+  and f.is_overdue=0 and f.is_payment=0
+ 
+ </select>
+ <select id="getFinanceVoList" resultType="com.fendo.entity.FinanceVo">
+ SELECT sum(f.money) numbers,s.name  
+  FROM t_salesman s LEFT JOIN t_finance f on s.id=f.s_id 
+  WHERE f.time like #{time} and f.s_id=#{ids} and s.state=0 and f.audit_id=0
+  and f.is_overdue=0 and f.is_payment=0
+ 
+ </select>
+ <select id="setALLlist" resultType="com.fendo.entity.SalesMan">
+ 
+ select * from t_salesman
+ 
+ </select>
+ <select id="togetFinanceVoList" resultType="com.fendo.entity.FinanceVo">
+ 
+ SELECT * from 
+(SELECT sum(f.money)sumXb
+  FROM t_salesman s LEFT JOIN t_finance f on s.id=f.s_id 
+  WHERE f.time like  #{time} and s.district_id=#{id} and f.audit_id=0
+) as sumXb,
+(SELECT sum(f.money)sumXd
+  FROM t_salesman s LEFT JOIN t_finance f on s.id=f.s_id 
+  WHERE f.time like  #{time} and s.district_id=#{id} and f.audit_id=1) as sumXd 
+
+ 
+ </select>
+ 
+  </mapper>
+  
+  
+ 

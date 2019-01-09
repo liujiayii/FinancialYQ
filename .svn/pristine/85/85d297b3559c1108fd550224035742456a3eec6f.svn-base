@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fendo.dao.SalaryDao">
+	<!-- 信息查询 工资表查询列表显示 -->
+	<select id="findSalary" resultType="com.fendo.entityVo.SalaryVo">
+		<!-- select s.id,p.post_name,s.name,s.base_pay,c.num_day,c.absence_money,c.no_clock,c.penalty_money,c.real_salary
+		 from t_staff s,t_company_post p,t_salary_statistics c
+		 where s.post_id = p.id and c.staff_id = s.id  -->
+		 <!-- 序号,职位,姓名,天数,实际出勤,基本工资,业务工资,原始股东分红,全勤奖,工装补助,餐补,保密金,提成,小计,缺勤扣款,未打卡,扣保险,扣多发,逾期扣,罚款,小计,实发工资,备注 -->
+		select s.*,p.post_name,c.*
+		 from t_staff s,t_company_post p,t_salary_statistics c
+
+		 where s.post_id = p.id and c.staff_id = s.id  AND district_id=#{area} and year=#{year} and month=#{month}
+	</select>
+	<select id="findrealSalary" resultType="com.fendo.entity.SalaryStatistics">
+		
+		select s.*,p.post_name,c.*
+		 from t_staff s,t_company_post p,t_salary_statistics c
+		 where s.post_id = p.id and c.staff_id = s.id  
+
+	</select>
+	<!-- 查询公司每个人的id,基本工资 -->
+	<select id="findListSaray"  resultType="com.fendo.entity.Staff" >
+		select t.id id,t.base_pay base_pay from t_staff t
+	
+	</select>
+	<!-- 通过姓名查找 -->
+	<select id="findSalaryByName" resultType="com.fendo.entityVo.SalaryVo">
+		select s.*,p.post_name,c.*
+		 from t_staff s,t_company_post p,t_salary_statistics c
+
+		 where s.post_id = p.id and c.staff_id = s.id and s.name = #{name} and c.year=#{year} and c.month=#{month}
+
+	</select>
+	<!-- 通过id查询显示实体详情 -->
+	<select id="findSalaryById" resultType="com.fendo.entityVo.SalaryVo">
+		select s.*,p.post_name,c.*
+		 from t_staff s,t_company_post p,t_salary_statistics c
+		 where s.post_id = p.id and c.staff_id = s.id and s.id=#{id}
+	</select>
+	<!--  -->
+	<!-- 添加备注 ,-->
+	<!-- <update id="updateRemark" parameterType="com.fendo.entity.SalaryStatistics">
+		update t_salary_statistics set remark=#{remark}
+		where id=#{id}
+	</update> -->
+	<!-- 修改工资详情的内容 -->
+	<update id="updateRemark" parameterType="com.fendo.entity.SalaryStatistics">
+		update t_salary_statistics 
+		set original_dividend=#{original_dividend},
+			confidential_gold=#{confidential_gold},
+			business_pay=#{business_pay},
+			absence_money=#{absence_money},
+			insurance_money=#{insurance_money},
+			multiple_money=#{multiple_money},
+			overdue_money=#{overdue_money},
+			penalty_money=#{penalty_money},
+			real_salary=#{real_salary},
+			remark=#{remark}
+		where staff_id=#{id}
+	</update>
+	<!-- 添加工资条字段 -->
+		<insert id="toAddSalary" parameterType="com.fendo.entity.SalaryStatistics">
+		insert into t_salary_statistics(id,staff_id,num_day,business_pay,year,month,time)
+		values(null,#{staff_id},#{num_day},#{business_pay},#{year},#{month},now())
+		</insert>
+		<!-- 根据staff_id修改出勤天数 -->
+	<update id="updateSalary">
+		update t_salary_statistics set real_attendance=real_attendance+0.5
+		where staff_id=#{id} and year=#{year} and month=#{month}
+	</update>
+		<!-- 获取未打卡次数-->
+	<update id="updateNumber">
+		update t_salary_statistics set no_clock=no_clock+0.5
+		where staff_id=#{id}and year=#{year} and month=#{month}
+	</update>
+	
+	
+	
+	<select id="toFindListSaray" resultType="com.fendo.entity.SalaryStatistics">
+	 select t.staff_id staff_id,t.year year,t.month month from  t_salary_statistics t
+	
+	</select>
+	<update id="updatetoSalary">
+		update t_salary_statistics set real_salary=(business_pay/30)*real_attendance+original_dividend+#{s.attendance_bouns}+#{s.meal_bouns}+#{s.forck_bouns}+
+		confidential_gold+push_money-absence_money-insurance_money-multiple_money-overdue_money-penalty_money
+		where staff_id=#{id} and year=#{year} and month=#{month}
+	</update>
+	<!-- 工资表查询业务员提成 -->
+	<select id="findSalesPush" resultType="com.fendo.entityVo.SalaryVo">
+		select e.extract from t_extract e,t_salesman s,t_staff st
+		 where s.id=e.s_id and st.job_number = s.job_number and st.id=#{id} and e.time=#{time}
+	</select>
+</mapper>

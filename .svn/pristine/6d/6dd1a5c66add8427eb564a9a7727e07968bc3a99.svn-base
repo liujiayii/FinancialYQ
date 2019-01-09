@@ -1,0 +1,156 @@
+package com.fendo.service.impl;
+
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.fendo.dao.SalaryDao;
+import com.fendo.entity.SalaryStatistics;
+import com.fendo.entity.Staff;
+import com.fendo.entityVo.SalaryVo;
+import com.fendo.pojo.ExcelBean;
+import com.fendo.service.SalaryService;
+import com.fendo.utils.ExcelUtil;
+
+@Service
+public class SalaryServiceImpl implements SalaryService{
+	
+	@Autowired
+	private SalaryDao salaryDao;
+	
+
+
+	@Override
+	public List<SalaryVo> findSalaryByName(String name,String year,String month) {
+		 return salaryDao.findSalaryByName(name,year,month);
+	}
+
+	@Override
+	public SalaryVo findSalaryById(long id) {
+		
+		return salaryDao.findSalaryById(id);
+	}
+
+//	@Override
+//	public int updateRemark(String remark, long id) {
+//	
+//		return salaryDao.updateRemark(remark,id);
+//	}
+	
+
+	@Override
+	public XSSFWorkbook exportExcelInfo(String area,String year,String month) {
+		XSSFWorkbook xssfWorkbook = null;
+		try {
+			//根据id查找
+//			String[] list = idList.split(",");
+			List<SalaryVo> salaryVoList = salaryDao.findSalary(area, year, month);
+			System.out.println("自黑"+salaryVoList);
+            List<ExcelBean> excel=new ArrayList<>();
+            Map<Integer,List<ExcelBean>> map=new LinkedHashMap<>();
+            excel.add(new ExcelBean("序号","id",0));
+            excel.add(new ExcelBean("职务","post_name",0));
+            excel.add(new ExcelBean("姓名","name",0));
+            excel.add(new ExcelBean("天数","num_day",0));
+            excel.add(new ExcelBean("实际出勤","real_attendance",0));
+            excel.add(new ExcelBean("基本工资","base_pay",0));
+            excel.add(new ExcelBean("业务工资","business_pay",0));
+            excel.add(new ExcelBean("原始股东分红","original_dividend",0));
+            excel.add(new ExcelBean("全勤奖","attendance_bouns",0));
+            excel.add(new ExcelBean("工装补助","forck_bouns",0));
+            excel.add(new ExcelBean("餐补","meal_bouns",0));
+            excel.add(new ExcelBean("保密金","confidential_gold",0));
+            excel.add(new ExcelBean("提成","push_money",0));
+//            excel.add(new ExcelBean("小计","",0));
+            
+            excel.add(new ExcelBean("缺勤扣款","absence_money",0));
+            excel.add(new ExcelBean("未打卡","no_clock",0));
+            excel.add(new ExcelBean("扣保险","insurance_money",0));
+            excel.add(new ExcelBean("扣多发","multiple_money",0));
+            excel.add(new ExcelBean("扣逾期","overdue_money",0));
+//            
+            excel.add(new ExcelBean("罚款","penalty_money",0));
+//            excel.add(new ExcelBean("小计","",0));
+            excel.add(new ExcelBean("实发工资","real_salary",0));
+            excel.add(new ExcelBean("备注","remark",0));
+            
+            map.put(0, excel);
+            String sheetName = "工资表";
+            xssfWorkbook = ExcelUtil.createExcelFile(SalaryVo.class, salaryVoList, map, sheetName);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return xssfWorkbook;
+	}
+
+
+	
+
+	@Override
+	public int toAddSalary(SalaryStatistics s) {
+		
+		return salaryDao.toAddSalary(s);
+	}
+
+	@Override
+	public List<Staff> findListSaray() {
+		
+		return salaryDao.findListSaray();
+	}
+
+	@Override
+	public List<SalaryStatistics> toFindListSaray() {
+		
+		return salaryDao.toFindListSaray();
+	}
+
+	@Override
+	public int updateSalary(long id, int year, int month) {
+		
+		return salaryDao.updateSalary(id, year, month);
+	}
+
+	@Override
+	public int updateNumber(long id, int year, int month) {
+		
+		return salaryDao.updateNumber(id, year, month);
+	}
+
+	@Override
+	public int updatetoSaray(SalaryVo s, long id, int year, int month) {
+		
+		return salaryDao.updatetoSalary(s, id, year, month);
+	}
+
+	@Override
+	public List<SalaryVo> findSalary(String area, String year, String month) {
+		
+		return salaryDao.findSalary(area, year, month);
+	}
+
+	@Override
+	public List<SalaryVo> findrealSalary() {
+		// TODO Auto-generated method stub
+		return  salaryDao.findrealSalary();
+	}
+
+	@Override
+	public SalaryVo findSalesPush(long id,String time) {
+		
+		return salaryDao.findSalesPush(id,time);
+	}
+
+	@Override
+	public int updateRemark(SalaryStatistics salary) {
+		
+		return salaryDao.updateRemark(salary);
+	}
+
+	
+
+}

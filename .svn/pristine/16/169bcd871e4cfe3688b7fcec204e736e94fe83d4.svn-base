@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper  namespace="com.fendo.dao.ServiceMoneyDao">
+  	<!-- 插入服务费 -->
+  	<insert id="addServiceMoney" parameterType="com.fendo.entity.ServiceMoney">		
+		replace  into  t_service_money(id,incomeAccount,remark,money,time)
+				 values(#{id},#{incomeAccount},#{remark},#{money},#{time})
+	</insert>
+	<!-- 查找 所有服务费-->
+	<select id="findAlls"  resultType="com.fendo.entity.ServiceMoney">
+		select * from t_service_money order by time 
+	</select>
+	<!-- 根据id查找 -->
+	<select id="findIds"  resultType="com.fendo.entity.ServiceMoney">
+		select * from t_service_money where id=#{id}
+	</select>
+	<!-- 根据当前页数查询查询本页服务费数据并返回到打印页面
+	List<ServiceMoney> findServiceMoneyLimitFive(Integer currentpage);
+	-->
+	<select id="findServiceMoneyLimitFive" parameterType="int" resultType="com.fendo.entity.ServiceMoney">
+		select * from t_service_money limit #{currentpage}, 5;
+	</select>
+  </mapper>

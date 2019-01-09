@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fendo.dao.StaffDao">
+	<!-- 修改员工信息时，查询显示所有数据 -->
+	<select id="findAllStaff" resultType="com.fendo.entity.StaffVo" parameterType="java.lang.Long">
+		select s.*,b.area,c.post_name,cd.dep_name
+		from t_staff s,t_branch_office b,t_company_post c,t_company_department cd
+		where s.district_id=b.id
+		and s.branch_id=cd.id
+	    and s.post_id = c.id
+	    and s.id=#{id}
+	</select>
+	<!-- 查询部门列表显示 -->
+	<select id="findDepartment" resultType="com.fendo.entity.CompanyDepartment">
+		select * from t_company_department
+	</select>
+	
+	
+	<!-- 查询职位显示 -->
+	<select id="findPost" resultType="com.fendo.entity.CompanyPost">
+		select * from t_company_post
+	</select>
+	<!-- 查询员工信息列表显示 -->
+	<select id="findStaffInfo" resultType="com.fendo.entity.StaffVo">
+		select s.id,s.job_number,s.name,b.area,c.post_name,cd.dep_name,s.phone,s.entry_date,s.type
+		from t_staff s,t_branch_office b,t_company_post c,t_company_department cd
+		where s.district_id=b.id
+		and s.branch_id=cd.id
+	    and s.post_id = c.id
+	</select>
+	<!-- 添加员工信息     是否转正 0否  1是-->
+	<insert id="toAddStaff" parameterType="com.fendo.entity.Staff">
+		insert into t_staff(id,job_number,name,district_id,branch_id,post_id,phone,base_pay,attendance_bouns,meal_bouns,forck_bouns,entry_date,create_time,type,is_become)
+		 values(null,#{job_number},#{name},#{district_id},#{branch_id},#{post_id},#{phone},#{base_pay},#{attendance_bouns},#{meal_bouns},#{forck_bouns},#{entry_date},now(),0,#{is_become})
+	</insert> 
+	<!--  测试导入时,添加-->
+<!-- 	<insert id="toAddStaff">
+		insert into t_staff(id,name)
+		 values(null,#{name})
+	</insert>	 -->	
+	<!-- 修改锁定状态 -->
+	<update id="toLockStaff">
+		update t_staff  
+ 	 	<set> type = case when type=0 then 1
+				when type=1 then 0 end
+ 		</set>
+ 		where id=#{id}
+	</update>
+	<!-- 修改员工信息 -->
+	<update id="toUpdateStaff" parameterType="com.fendo.entity.Staff">
+		update t_staff
+		<set>
+			<if test="district_id!=null and district_id!=''">district_id=#{district_id},</if>
+			<if test="branch_id!=null and branch_id!=''">branch_id=#{branch_id},</if>
+			<if test="post_id!=null and post_id!=''">post_id=#{post_id},</if>
+			<if test="phone!=null and phone!=''">phone=#{phone},</if>
+			<if test="base_pay!=null and base_pay!=''">base_pay=#{base_pay},</if>
+			<if test="attendance_bouns!=null and attendance_bouns!=''">attendance_bouns=#{attendance_bouns},</if>
+			<if test="meal_bouns!=null and meal_bouns!=''">meal_bouns=#{meal_bouns},</if>
+			<if test="forck_bouns!=null and forck_bouns!=''">forck_bouns=#{forck_bouns},</if>
+			<if test="update_time!=null and update_time!=''">update_time=now(),</if>
+			<if test="is_become!=null and is_become!=''">is_become=#{is_become},</if>
+		</set>
+		where id=#{id}
+	</update>
+	<!-- 按电话查询 -->
+	<select id="toFindStaffByPhone" resultType="com.fendo.entity.StaffVo">
+		select s.*,b.area,c.post_name,cd.dep_name
+		from t_staff s,t_branch_office b,t_company_post c,t_company_department cd
+		where s.district_id=b.id
+		and s.branch_id=cd.id
+	    and s.post_id = c.id
+	    and s.phone like #{phone}
+	</select>
+
+	<!-- 按名字查询对应的id -->
+	<select id="getStaff" resultType="com.fendo.entity.Staff">
+		select id
+		from t_staff 
+		where name=#{name}
+	</select>
+	<!-- 异步判断工号 -->
+	<select id="findByJobNum" resultType="com.fendo.entity.Staff">
+		select * from t_staff where job_number=#{job_number}
+	</select>
+	<!-- 异步判断手机号 -->
+	<select id="findStaffByPhone" resultType="com.fendo.entity.Staff">
+		select * from t_staff where phone like #{phone}
+	</select>
+	
+		<!-- 获取理财id-->
+	<update id="updateSalesId">
+		update t_staff set sales_id=#{s.salesid}
+		where name=#{s.name} and phone=#{s.phone}
+	</update>
+	
+</mapper>

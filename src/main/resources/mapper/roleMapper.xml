@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fendo.dao.RoleDao">
+	<!-- 查询某业务员提成 -->
+
+	<select id="findDeductByName" resultType="com.fendo.entity.RuleSalesVo">
+   
+   select s.id id,s.name name,s.duty duty,s.phone phone,s.district_id district_id,t.time time,t.extract extract from t_extract t left join t_salesman s on s.id=t.s_id
+   where s.name=#{name}
+   </select>
+	<!-- 查询所有业务员提成 -->
+	<select id="findAllDeduct" resultType="com.fendo.entity.DeductVo">
+		 select * from t_salesman
+	</select>
+	<select id="findSaleDetailById" resultType="com.fendo.entity.DeductVo">
+		select f.grade grade,s.name name,f.money money,f.day interest from t_finance f,t_salesman s
+		 where f.s_id=s.id and f.s_id=#{id} and s.state=0 
+          and f.is_overdue=0 and f.is_payment=0  and f.time like #{time}
+       <!--   select f.grade grade,s.name name,f.money money,f.day,e.extract from t_finance f,t_salesman s,t_extract e
+		 where f.s_id=s.id and s.state=0 and f.audit_id=1
+          and f.is_overdue=0 and f.is_payment=0 and e.s_id=#{id}; -->
+	</select>
+	<insert id="toAddRole">
+	 insert into t_rule (id,district_id,task,completionrate,rule_one,rule_two,rule_three,salesManageNumber,time)
+	 values(null,#{district_id},#{task},#{completionrate},#{rule_one},#{rule_two},#{rule_three},#{salesManageNumber},now())
+	
+	
+	</insert>
+	<!--     查询所有地区业绩规则 -->
+    <select id="getlistRule" resultType="com.fendo.entity.Rule">
+    	select * from t_rule 
+      where district_id=#{n}
+    	
+    </select>
+<!--  修改数据 -->
+ <update id="toUpdateRole">
+ 
+ 
+ 	 UPDATE t_rule
+ 	<set>
+ 	 
+ 		<if test="t.task !=null and t.task != '' ">task=#{t.task},</if>
+ 		<if test="t.completionrate !=null and t.completionrate != '' ">completionrate=#{t.completionrate},</if>
+ 		<if test="t.rule_one !=null and t.rule_one!='' ">rule_one=#{t.rule_one},</if>
+ 		<if test="t.rule_two !=null and t.rule_two !='' ">rule_two=#{t.rule_two},</if>
+ 		<if test="t.rule_three !=null and t.rule_three !='' ">rule_three=#{t.rule_three},</if>
+ 		<if test="t.salesManageNumber !=null and t.salesManageNumber !='' ">salesManageNumber=#{t.salesManageNumber},</if>
+ 		<if test="t.time !=null and t.time !='' ">time=#{t.time},</if>
+ 	</set>
+ 	WHERE id =#{t.id}
+ </update>
+ 
+
+</mapper>

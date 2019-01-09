@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper  namespace="com.fendo.dao.WithDrawMoneyDao">
+  <!-- 插入提现手续费 -->
+  	<insert id="addWithDrawMoney" parameterType="com.fendo.entity.WithDrawMoney">	
+		replace  into  t_withdraw_money(id,incomeAccount,remark,money,time)
+				 values(#{id},#{incomeAccount},#{remark},#{money},#{time})
+	</insert>
+	<!-- 查找 所有手续费-->
+	<select id="findAll"  resultType="com.fendo.entity.WithDrawMoney">
+		select * from t_withdraw_money
+	</select>
+	<!-- 根据id查找 -->
+	<select id="findId"  resultType="com.fendo.entity.WithDrawMoney">
+		select * from t_withdraw_money where id=#{id}
+	</select>
+  </mapper>

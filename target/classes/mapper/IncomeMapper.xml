@@ -15,12 +15,14 @@
 	<select id="findAllTypebytime" resultType="com.fendo.entity.Income">
 		select * from t_income_cost where creat_time like #{time}
 	</select>
-	
+	<select id="findAllTypebyarea" resultType="com.fendo.entity.Income">
+		select * from t_income_cost where district_id=#{area}
+	</select>
 	<!-- 添加员工信息 -->
 	<insert id="toAddIncome" parameterType="com.fendo.entity.Income">
 		insert into
-		t_income_cost(id,title,sum,name,district_id,state,creat_time,income_name,income_name1,income_name2,income_name3,income_name4,digest,digest1,digest2,digest3,digest4,money,money1,money2,money3,money4)
-		values(null,#{title},#{sum},#{name},#{area},0,now(),#{income_name},#{income_name1},#{income_name2},#{income_name3},#{income_name4},#{digest},#{digest1},#{digest2},#{digest3},#{digest4},#{money},#{money1},#{money2},#{money3},#{money4})
+		t_income_cost(id,title,sum,name,district_id,state,creat_time,income_name,income_name1,income_name2,income_name3,income_name4,digest,digest1,digest2,digest3,digest4,money,money1,money2,money3,money4,times)
+		values(null,#{title},#{sum},#{name},#{area},0,now(),#{income_name},#{income_name1},#{income_name2},#{income_name3},#{income_name4},#{digest},#{digest1},#{digest2},#{digest3},#{digest4},#{money},#{money1},#{money2},#{money3},#{money4},#{times})
 	</insert>
 	<!-- 通过id查询 -->
 	<select id="findById1" resultType="com.fendo.entity.Income"
@@ -31,11 +33,9 @@
 	<!-- 修改通过状态type -->
 	<update id="updatePasssr" parameterType="com.fendo.entity.Income">
 		update t_income_cost set
-		state = 1 where id=#{id}
+		state = 1,auditor=#{auditor},role=#{role} where id=#{id}
 	</update>
-	
 	<delete id="deletePasssr" parameterType="com.fendo.entity.Income">
 	 delete from t_income_cost where id=#{id}
-	
 	</delete>
 </mapper>

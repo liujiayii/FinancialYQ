@@ -17,6 +17,11 @@
 		select * from t_company_department
 	</select>
 	
+	<!-- 查询最大id -->
+	<select id="findlastId" resultType="com.fendo.entity.Staff" >
+	  select id from t_staff ORDER BY id DESC LIMIT 0,1
+	
+	</select>
 	
 	<!-- 查询职位显示 -->
 	<select id="findPost" resultType="com.fendo.entity.CompanyPost">

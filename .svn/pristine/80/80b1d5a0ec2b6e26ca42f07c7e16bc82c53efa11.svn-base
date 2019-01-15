@@ -5,11 +5,11 @@
 			<div class="content">
 				<div class="sub-box">
 					<div class="sel-list">
-						<select class="select_style" id="sid" onchange="getlist(this)">
+					<%-- 	<select class="select_style" id="sid" onchange="getlist(this)">
 							<c:forEach items="${branchOfficeList}" var="list">
 							<option value="${list.area}">${list.area}</option>
 						</c:forEach>
-						</select>
+						</select> --%>
 
 						<select class="select_style" id="yearid" onchange="getlist()">
 							<option value="2019">2019</option>
@@ -30,13 +30,13 @@
 							<option value="10">11</option>
 							<option value="11">12</option>
 						</select>
-						<select  class="select_style" id="select_type">
+						<!-- <select  class="select_style" id="select_type">
 							<option value="1">提成表</option>
 							<option value="2" selected>工资表</option>
-						</select>
+						</select> -->
 					</div>
 					<div class="sub-right">
-						<input type="text" value="" name="name" class="sub-search" placeholder="请输入姓名" id="input_name" onkeyup="findSalaryByName()"/>
+						<input type="text" value="" name="name" class="sub-search" placeholder="请输入工号" id="input_name" onkeyup="findSalaryByName()"/>
 					</div>
 				</div>
 				<table id="cs_table" class="table_tbs" rules=rows>
@@ -46,9 +46,9 @@
 <jsp:include page="footer.jsp"></jsp:include>
 	</body>
 	<script type="text/javascript">
-	
+	 
 	/*跳转*/
-	$('#select_type').change(function(){
+	/*$('#select_type').change(function(){
 		var c="${roletype}";
 		var types=$('#select_type option:selected').text();
 		if(types=='提成表'){
@@ -61,7 +61,7 @@
 		}else if(types=='工资表'){
 			window.location.href="demandWage.action";
 		}
-	});
+	}); */
 		
 		$(function(){
 			navSelected(2);	
@@ -115,10 +115,11 @@
 			console.log(myDate.getFullYear()); //获取完整的年份(4位,1970-????)
 			console.log(myDate.getMonth()); //获取当前月份(0-11,0代表1月)
 			$('#yearid').val(myDate.getFullYear());
-			$('#monthid').val(myDate.getMonth()-1);
+			$('#monthid').val(myDate.getMonth());
 			var c=$('#sid option:selected').text();
 			var d=myDate.getFullYear();
-			var e=myDate.getMonth();
+			var e=myDate.getMonth()+1;
+			alert("month"+e)
 			var time;
 			if(e<10){
 			
@@ -127,22 +128,22 @@
 			 time=d+'-'+e;
 			}
 		
-			var url = "showSalary.action?area="+c+"&year="+d+"&month="+e;
+			var url = "showAttendance.action?year="+d+"&month="+e;
 			
 			$("#export").click(function(){
-				window.location.href="export.action?area="+c+"&year="+d+"&month="+e;
+				window.location.href="export.action?year="+d+"&month="+e;
 			})
 			
 			$.getJSON(url,function(res){
 				var data = [];
 				
 			  	for(var i=0;i<res.length;i++){
-				    data[i] = {id:res[i].id,职位:res[i].post_name,姓名:res[i].name,工号:res[i].job_number,实发工资:res[i].real_salary,操作:"<a href='toShowSalaryDetail.action?id="+res[i].id+"&time="+time+"'>详情</a>"};
+				    data[i] = {id:res[i].id,职位:res[i].post_name,姓名:res[i].name,工号:res[i].job_number,转正后出勤:res[i].real_attendance,未转正出勤:res[i].noreal_attendance,操作:"<a href='toShowSalaryDetail.action?id="+res[i].id+"&time="+time+"'>详情</a>"};
 				}
 			  	console.log(data)
 				var cs = new table({
 				    "tableId":"cs_table",  //必须
-				    "headers":["序号","职位","姓名","工号","实发工资","操作"],  //必须
+				    "headers":["序号","职位","姓名","工号","转正出勤","未转正出勤","操作"],  //必须
 				    "data":data,    //必须
 				    "displayNum": 5,  //必须  默认 10
 				    "groupDataNum":10 //可选  默认 10

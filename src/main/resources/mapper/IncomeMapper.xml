@@ -38,4 +38,11 @@
 	<delete id="deletePasssr" parameterType="com.fendo.entity.Income">
 	 delete from t_income_cost where id=#{id}
 	</delete>
+	<!--  -->
+	<update id="toUpdateIncome" parameterType="com.fendo.entity.Income">
+		UPDATE t_income_cost SET district_id=#{area},name=#{name},title=#{title},times=#{times},income_name=#{income_name},income_name1=#{income_name1},income_name2=#{income_name2},
+		income_name3=#{income_name3},income_name4=#{income_name4},digest=#{digest},digest1=#{digest1},digest2=#{digest2},digest3=#{digest3},digest4=#{digest4},
+		money=#{money},money1=#{money1},money2=#{money2},money3=#{money3},money4=#{money4},sum=#{sum}
+		WHERE id=#{id}
+	</update>
 </mapper>

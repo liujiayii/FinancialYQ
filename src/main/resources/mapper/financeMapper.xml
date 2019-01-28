@@ -166,7 +166,7 @@
 		account,period,interests,
 		refinancePrincipal,maturityPrincipal,prepaymentPrincipal,
 		overduePrincipal,refinancePlatform,maturityPlatform,
-		overduePlatform,prepaymentPlatform,riskman,state)
+		overduePlatform,prepaymentPlatform,riskman,state,remark)
 		values(null,#{grade},#{name},
 		#{area},#{money},#{day},
 		#{principal},#{interest},#{serviceMoney},
@@ -179,7 +179,7 @@
 		#{account},#{period},#{interests},
 		#{refinancePrincipal},#{maturityPrincipal},#{prepaymentPrincipal},
 		#{overduePrincipal},#{refinancePlatform},#{maturityPlatform},
-		#{overduePlatform},#{prepaymentPlatform},#{riskman},#{state})
+		#{overduePlatform},#{prepaymentPlatform},#{riskman},#{state},#{remark})
 	</insert>
 	<!-- <insert id="addFinances" parameterType="com.fendo.entity.Finance"> 
 		insert into t_finance(id,grade,name,area) </insert> -->

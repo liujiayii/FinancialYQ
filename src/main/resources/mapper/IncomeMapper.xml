@@ -45,4 +45,23 @@
 		money=#{money},money1=#{money1},money2=#{money2},money3=#{money3},money4=#{money4},sum=#{sum}
 		WHERE id=#{id}
 	</update>
+	<!-- 多条件查询 -->
+	<select id="findBySelective" resultType="com.fendo.entity.Income">
+		select * from t_income_cost
+		<where>
+			<if test="district_id != null and district_id != ''">
+				and district_id=#{district_id}
+			</if>
+			<if test="sum != null and sum != ''">
+				and sum like concat("%",#{sum},"%")
+			</if>
+			<if test="digest != null and digest != ''">
+				and digest like concat("%",#{digest},"%")
+			</if>
+			<if test="creat_time != null and creat_time != ''">
+				and date_format(creat_time,'%Y-%m-%d')=#{creat_time,jdbcType=DATE}
+			</if>
+		</where>
+		order by creat_time desc,state asc
+	</select>
 </mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.fendo.dao.RuleVoDao">
+   <insert id="toAddRuleVo" parameterType="com.fendo.entity.RuleVo">
+    insert into t_extract(id,extract,time,s_id)
+    values(null,#{extract},#{time},#{salesId})
+   
+   
+   </insert>
+   <select id="getRulevo" resultType="com.fendo.entity.RuleVo">
+   
+   select * from t_extract
+   </select>
+  <update id="toupdateRuleVo" >
+ 	  UPDATE t_extract
+	  	set extract=#{t.extract},time=#{t.time}
+ 		WHERE s_id =#{t.id}
+  </update>
+  
+  <update id="toupdateRuleVobyId" >
+ 	  UPDATE t_extract
+	  	set extract=#{t.extract}
+ 		WHERE s_id =#{t.s_id} and time=#{t.time}
+  </update>
+  
+  <select id="getRulevoByTime" resultType="com.fendo.entity.RuleSalesVo">
+   
+   select s.id id,s.name name,s.duty duty,s.phone phone,s.district_id district_id,t.time time,t.extract extract from t_extract t left join t_salesman s on s.id=t.s_id
+   where s.district_id=#{area} and t.time=#{time}
+   </select>
+  
+  </mapper>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace = "com.fendo.dao.UserDao">
+	<!-- 通过用户名查询该用户名是否已存在 ,添加权限时,账号是否存在-->
+	<select id="findByUsername" parameterType="java.lang.String" resultType="com.fendo.entity.t_user">
+		select * from t_user where username=#{username}
+	</select>
+	<!-- 通过密码查询 -->
+	<select id="findByPass" resultType="com.fendo.entity.t_user">
+		select * from t_user where username=#{username} and password=#{password}
+	</select>
+	
+	<!-- 角色查询 -->
+	<select id="getUser" resultType="com.fendo.entity.t_user">
+		select * from t_user
+	</select>
+	<!-- 角色查询 根据id-->
+	<select id="getUserbyId" resultType="com.fendo.entity.t_user" >
+		select * from t_user where id=#{id}
+
+	</select>
+	<!-- 异步判断手机号码 -->
+	<select id="findUserByPhone" resultType="com.fendo.entity.t_user">
+		select * from t_user where phone=#{phone}
+	</select>
+	<!-- 角色增加 -->
+	<insert id="toAddUser" parameterType="com.fendo.entity.t_user">
+		insert into t_user(id,role_type,name,phone,username,password,create_time,update_time)
+		values(null,#{role_type},#{name},#{phone},#{username},#{password},now(),now())
+	</insert>
+
+
+	<!-- 登录 -->
+	<select id="findUserByNameAndPwd" parameterType="t_user" resultType="t_user">
+		select *
+		 from t_user
+		 where username=#{username}
+		 and password=#{password}
+	</select>
+	<!-- 修改权限信息 -->
+	<update id="updateUser" parameterType="com.fendo.entity.t_user">
+		update t_user
+		<set>
+			<if test="role_type!=null and role_type!=''">role_type =#{role_type},</if>
+			<if test="phone!=null and phone!=''">phone=#{phone},</if>
+			<if test="password!=null and password!=''">password =#{password},</if>
+			<if test="update_time!=null and update_time!=''">update_time =now(),</if>
+		</set>
+		 where id =#{id} and status=0
+	</update>
+	<!--删除该权限职员 -->
+	<delete id="deleteUserById">
+		delete from t_user where id=#{id}
+	</delete>
+	<!-- 锁定 -->
+	<update id="lockUser">
+		update t_user
+		<set>
+			status= case when status=0 then 1
+			when status=1 then 0 end
+		</set>
+		where id=#{id}
+	</update>
+	
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fendo.dao.ExpendDao">
+
+	<insert id="insert" parameterType="com.fendo.entity.Expend">
+		INSERT INTO t_expend
+		(id,expend_id,img_url)
+		VALUES(null,#{expend_id},#{img_url})
+	</insert>
+
+	<select id="selectFileUrlByExpendId" resultType="java.lang.String">
+		select img_url
+		from t_expend
+		where expend_id =#{expendId}
+	</select>
+
+</mapper>

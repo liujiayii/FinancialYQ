@@ -111,7 +111,7 @@ public class BranceOfficeController {
 		// 获取当前用户，(向下转型,返回的是一个对象)
 		t_user user = (t_user) session.getAttribute("currUser");
 		
-		if (user.getRole_type().equals("管理员")||user.getRole_type().equals("记账")||user.getRole_type().equals("财务总监")) {
+		//if (user.getRole_type().equals("管理员")||user.getRole_type().equals("记账")||user.getRole_type().equals("财务总监")) {
 			
 
 			ResultInfo result = new ResultInfo();
@@ -129,8 +129,8 @@ public class BranceOfficeController {
 
 			}
 			return result;
-		}
-		return null;
+		//}
+		//return null;
 
 	}
 
@@ -148,7 +148,7 @@ public class BranceOfficeController {
 	public ResultInfo toUpdateBranch(@RequestBody BranchOffice branchOffice, HttpSession session) {
 		t_user user = (t_user) session.getAttribute("currUser");
 	
-		if (user.getRole_type().equals("管理员")) {
+		//if (user.getRole_type().equals("管理员")) {
 			
 			ResultInfo result = new ResultInfo();
 			try {
@@ -164,8 +164,8 @@ public class BranceOfficeController {
 				result.msg = "error";
 				return result;
 			}
-		}
-		return null;
+		//}
+		//return null;
 	}
 
 }

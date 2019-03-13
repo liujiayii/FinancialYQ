@@ -1,8 +1,10 @@
 package com.fendo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fendo.entity.Income;
 import com.fendo.entity.IncomeVo;
@@ -22,7 +24,7 @@ public interface SpendService {
 	/*列表显示所有支出信息*/
 	List<Spend> findAllType();
 	/*添加支出信息*/
-	int toAddSpend(Spend spend);
+	Map<String,Object> toAddSpend(Spend spend);
 	/*通过id查询*/
 	Spend findById(long id);
 	/*修改通过状态*/
@@ -34,4 +36,7 @@ public interface SpendService {
 	 List<Spend> findAllTypebyarea(String area);
 	 /*修改收入费用*/
 	 int toUpdateSpend(Spend spend);
+	 
+	 
+	Map<String,Object> toAddSpend(Long id, List<MultipartFile> files);
 }

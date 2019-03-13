@@ -22,11 +22,12 @@
 		select * from t_spend_cost where district_id=#{area}
 	</select>
 	<!-- 添加支出信息 -->
-	<insert id="toAddSpend" parameterType="com.fendo.entity.Spend">
+	<insert id="toAddSpend" parameterType="com.fendo.entity.Spend" useGeneratedKeys="true"
+			keyProperty="id">
 
 		insert into
-		t_spend_cost(id,title,sum,name,district_id,state,creat_time,spend_name,spend_name1,spend_name2,spend_name3,spend_name4,digest,digest1,digest2,digest3,digest4,money,money1,money2,money3,money4,times)
-		values(null,#{title},#{sum},#{name},#{area},0,now(),#{spend_name},#{spend_name1},#{spend_name2},#{spend_name3},#{spend_name4},#{digest},#{digest1},#{digest2},#{digest3},#{digest4},#{money},#{money1},#{money2},#{money3},#{money4},#{times})
+		t_spend_cost(id,title,sum,name,district_id,state,creat_time,spend_name,spend_name1,spend_name2,spend_name3,spend_name4,digest,digest1,digest2,digest3,digest4,money,money1,money2,money3,money4,times,remark,entry_person)
+		values(null,#{title},#{sum},#{name},#{area},0,now(),#{spend_name},#{spend_name1},#{spend_name2},#{spend_name3},#{spend_name4},#{digest},#{digest1},#{digest2},#{digest3},#{digest4},#{money},#{money1},#{money2},#{money3},#{money4},#{times},#{remark},#{entry_person})
 	</insert>
 
 	<!-- 通过id查询 -->
@@ -44,7 +45,7 @@
 	<update id="toUpdateSpend" parameterType="com.fendo.entity.Spend">
 		UPDATE t_spend_cost SET district_id=#{area},name=#{name},title=#{title},times=#{times},spend_name=#{spend_name},spend_name1=#{spend_name1},spend_name2=#{spend_name2},
 		spend_name3=#{spend_name3},spend_name4=#{spend_name4},digest=#{digest},digest1=#{digest1},digest2=#{digest2},digest3=#{digest3},digest4=#{digest4},
-		money=#{money},money1=#{money1},money2=#{money2},money3=#{money3},money4=#{money4},sum=#{sum}
+		money=#{money},money1=#{money1},money2=#{money2},money3=#{money3},money4=#{money4},sum=#{sum},remark=#{remark}
 		WHERE id=#{id}
 	</update>
 </mapper>

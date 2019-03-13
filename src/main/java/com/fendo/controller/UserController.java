@@ -52,7 +52,7 @@ public class UserController  {
 		t_user user = (t_user)session.getAttribute("currUser");
 	
 		//如果当前用户是管理员则可以查看角色权限列表
-		if(user.getRole_type().equals("管理员")||user.getRole_type().equals("财务总监")){
+		
 			
 			List<t_user> list = new ArrayList<>();
 			try {
@@ -63,8 +63,7 @@ public class UserController  {
 				
 			}
 			return list;	
-		}
-		return null;
+	
 	}
 	/**
 	 * 跳转增加权限页面
@@ -203,6 +202,19 @@ public class UserController  {
 		}
 		return "AuthorityManagement";
 	}
+	
+	
+	@RequestMapping("/toqxByid")
+	public ModelAndView toqxByid(String id){
+		System.out.println("id"+id);
+		ModelAndView mv=new ModelAndView();
+		
+		mv.setViewName("qx");
+
+		mv.addObject("id",id);
+		return mv;
+	}
+	
 	/**
 	 * 锁定该权限职员
 	 * @param id
@@ -271,7 +283,7 @@ public class UserController  {
 			t_user user = userService.findByUsername(username);
 			if(user!=null){
 				
-			
+			    int  status=user.getStatus();
 				String passWord = request.getParameter("password");
 				String encryptPwd = DesUtil.encode("cwguanli",passWord); 
 			
@@ -279,7 +291,7 @@ public class UserController  {
 				String md5Pwd = MD5Encrypt.MD5Encode(encryptPwd);
 				
 				String pass = user.getPassword();
-			
+			if(status==0) {
 				if(pass.equals(md5Pwd)){
 					
 				
@@ -291,6 +303,11 @@ public class UserController  {
 					result.msg="密码不正确";
 					
 				}
+			}
+			else {
+				result.code=-1;
+				result.msg="用户被锁定，请联系管理员";
+			}
 			}else{
 			
 				result.code=-1;

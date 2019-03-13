@@ -461,12 +461,15 @@ a:focus {
 }
 
 .control_tab input {
-	width: 100%;
+    
 	height: 40px;
 	font-size: 14px;
 	padding: 0 10px;
-	color: #989797;
+	color: #fff;
 	border: 1px solid #dcdcdc;
+	border: none;
+	width: 102px;
+	height: 37px;
 }
 
 .marg_top {
@@ -761,3 +764,6 @@ a:focus {
 	height: 40px;
 	line-height: 40px;
 }
+/* .sub-box .sub-nav>li{
+	display:none;
+} */

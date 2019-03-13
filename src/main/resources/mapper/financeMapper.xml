@@ -245,7 +245,7 @@
 	</update>
 	<!-- 修改通过状态type -->
 	<update id="updatePass" parameterType="com.fendo.entity.Finance">
-		update t_finance set type= 1 where id=#{id}
+		update t_finance set type= 1,auditor=#{auditor},role=#{role} where id=#{id}
 	</update>
 	<!-- 修改打回状态type -->
 	<update id="updateBack" parameterType="com.fendo.entity.Finance">

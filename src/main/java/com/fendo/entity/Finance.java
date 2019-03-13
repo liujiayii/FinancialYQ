@@ -108,7 +108,10 @@ public class Finance implements Serializable{
 	private BigDecimal principals;
 	/*利息*/
 	private BigDecimal accrual;
-	
+	/*审核人*/
+	private String auditor;
+	/*审核人角色*/
+	private String role;
 	
 	public String getRemark() {
 		return remark;
@@ -397,6 +400,18 @@ public class Finance implements Serializable{
 	public void setAccrual(BigDecimal accrual) {
 		this.accrual = accrual;
 	}
+	public String getAuditor() {
+		return auditor;
+	}
+	public void setAuditor(String auditor) {
+		this.auditor = auditor;
+	}
+	public String getRole() {
+		return role;
+	}
+	public void setRole(String role) {
+		this.role = role;
+	}
 	@Override
 	public String toString() {
 		return "Finance [id=" + id + ", audit_id=" + audit_id + ", s_id=" + s_id + ", grade=" + grade + ", name=" + name
@@ -413,7 +428,8 @@ public class Finance implements Serializable{
 				+ overduePrincipal + ", refinancePlatform=" + refinancePlatform + ", maturityPlatform="
 				+ maturityPlatform + ", overduePlatform=" + overduePlatform + ", prepaymentPlatform="
 				+ prepaymentPlatform + ", riskman=" + riskman + ", state=" + state + ", remark=" + remark
-				+ ", principals=" + principals + ", accrual=" + accrual + "]";
+				+ ", principals=" + principals + ", accrual=" + accrual + ", auditor=" + auditor + ", role=" + role
+				+ "]";
 	}
 	
 	

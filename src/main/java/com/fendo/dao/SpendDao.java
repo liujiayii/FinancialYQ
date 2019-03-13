@@ -20,7 +20,7 @@ public interface SpendDao {
 	/*列表显示支出所有信息*/
 	List<Spend> findAllType();
 	/*添加支出信息*/
-	int toAddSpend(Spend spend);
+	Integer toAddSpend(Spend spend);
 	/*查询支出项目名称显示*/
 	//List<SpendItem> findSpendItem();
 	/*查询员工名称显示*/

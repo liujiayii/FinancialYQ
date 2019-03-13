@@ -3,10 +3,12 @@ package com.fendo.controller;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 import com.fendo.entity.BranchOffice;
 import com.fendo.entity.Income;
@@ -122,30 +126,18 @@ public class IncomeController {
 	 */
 	@RequestMapping(value = "/toAddIncome", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultInfo toAddIncome(@RequestBody Income Income) {
+	public Map<String,Object> toAddIncome (@RequestBody Income income,HttpSession session) {
+		Map<String,Object> map  =  incomeService.toAddIncome(income);
+		return map;
+	}
 	
-		ResultInfo result = new ResultInfo();
-		try {
-			int rows = incomeService.toAddIncome(Income);
-			// List<IncomeVo> a=incomeService.sum();
-			// System.out.println(a+"a");
-
-			//System.out.println(Income + "123");
-			
-
-			if (rows >= 1) {
-			
-				result.code = 0;
-				result.msg = "successfully!!";
-				return result;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.code = -1;
-			result.msg = "error";
-		}
-
-		return result;
+	@RequestMapping(value="/toAddIncomeImg")
+	@ResponseBody
+	public Map<String,Object> toAddIncomeImg(HttpServletRequest request,Long id){
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		List<MultipartFile> files = multipartRequest.getFiles("file");
+		Map<String,Object> map = incomeService.toAddSpend(id, files);
+		return map;
 	}
 
 	/**

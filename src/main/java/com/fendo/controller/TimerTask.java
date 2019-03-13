@@ -69,7 +69,7 @@ import net.sf.json.JSONNull;
 
 @Lazy(false)
 public class TimerTask {
-	
+/*	
     @Autowired
     private TimerTaskService timerTaskService;
 	@Autowired
@@ -88,14 +88,14 @@ public class TimerTask {
 	ServiceMoneyService servicemoneyService;
 	UserService us = new UserService();
 
-	/*
+	
 	 * @Autowired private XXTZController xc;
 	 * 
 	 * 
 	 * 每个月一号凌晨一点执行test1
-	 */
+	 
 	// 秒分时日 月周 获取提成
-/*	@Scheduled(cron = "0 40 00 01 * ?")*/
+	@Scheduled(cron = "0 40 00 01 * ?")
 	@Scheduled(cron = "0 01 01 1 * ?")
 	public List<RuleVo> test1() {
 		System.out.println("4646");
@@ -136,8 +136,8 @@ public class TimerTask {
 
 		for (int a = 0; a < listman.size(); a++) {
 			 System.out.println("业务员1"+listman.get(a).getDistrict_id());
-			/*sales = salesmanService.getFinceVo(time, listman.get(a).getDistrict_id());*/
-			/*rule = ruleService.getlistRule(listman.get(a).getDistrict_id());*/
+			sales = salesmanService.getFinceVo(time, listman.get(a).getDistrict_id());
+			rule = ruleService.getlistRule(listman.get(a).getDistrict_id());
 			RuleVo rulevo = new RuleVo();
 
 			rulevo.setSalesId(listman.get(a).getId());
@@ -159,9 +159,9 @@ public class TimerTask {
 //				} else {
 //
 //					ruleVoService.toAddRulsVo(rulevo);
-//				}*/
+//				}
 //			} else {
-				/*if (sales.get(0).getSum() > rule.get(0).getCompletionrate()) {*/
+				if (sales.get(0).getSum() > rule.get(0).getCompletionrate()) {
 					if (listman.get(a).getDuty().equals("业务员")) {
                            System.out.println("业务员");
 						if (saleslist.get(0) == null&&saleslistone.get(0) == null ) {
@@ -190,7 +190,7 @@ public class TimerTask {
 						}
 						System.out.println("rulevo"+rulevo);
 						ruleVoService.toAddRulsVo(rulevo);
-					}/* else if (listman.get(a).getDuty().equals("门店经理")) {
+					} else if (listman.get(a).getDuty().equals("门店经理")) {
 						if (sales.get(0).getSum() > 0) {
 							if (sales.get(0).getSum() > rule.get(0).getTask()) {
 								k = sales.get(0).getSum() * rule.get(0).getRule_one() / 10000
@@ -210,7 +210,7 @@ public class TimerTask {
 							k = 0;
 							list.get(a).setExtract(k);
 						}
-					} *//*else {
+					} else {
 
 						k = rule.get(0).getSalesManageNumber() * (sales.get(0).getSum() / rule.get(0).getTask());
 						if (k > rule.get(0).getSalesManageNumber()) {
@@ -220,30 +220,31 @@ public class TimerTask {
 
 						list.get(a).setExtract(k);
 
-					}*/
-			/*	} else {
+					}
+				} else {
 					list.get(a).setExtract(k);
-				}*/
+				}
 
-				/*if (listint.contains(rulevo.getTime())) {
+				if (listint.contains(rulevo.getTime())) {
 
 				} else {
 
 					ruleVoService.toAddRulsVo(rulevo);
-				}*/
-			/*}*/
+				}
+			}
 		}
 
 		return list;
 	}
-	/* 获取考勤天数 */
+	 获取考勤天数 
 
-	@Scheduled(cron = "0 30 2 * * ?")
+	@Scheduled(cron = "0 58 17 * * ?")
 	public void testGetAccessToken() {
 
 		List<String> listid = new ArrayList<String>();
 
 		try {
+			
 			String accessToken;
 			accessToken = AuthHelper.getAccessToken(Env.CORP_ID, Env.CORP_SECRET);
 
@@ -251,10 +252,12 @@ public class TimerTask {
 			String getDepIdName = "https://oapi.dingtalk.com/department/list?access_token=" + accessToken;
 
 			net.sf.json.JSONObject jsonObjectDepList = HttpRequestUtil.doGet(getDepIdName);
+			System.out.println("==========="+jsonObjectDepList);
 
-			/* System.out.println(jsonObjectDepList); */
+			 System.out.println(jsonObjectDepList); 
 			// 2.2通过department属性获取部门json对象数组
 			net.sf.json.JSONArray DepArr = jsonObjectDepList.getJSONArray("department");
+			System.out.println("-------"+DepArr);
 			Calendar cal = Calendar.getInstance();
 			// 年
 			int year = cal.get(Calendar.YEAR);
@@ -267,26 +270,30 @@ public class TimerTask {
 			Date date = new Date();
 
 			if (month < 10 && day < 10) {
-				time = year + "-0" + month + "-0" + day + " 00:00:00";
+				time = year + "-0" + month + "-0" + day ;
 			} else if (month < 10 && day >= 10) {
-				time = year + "-0" + month + "-" + day + " 00:00:00";
+				time = year + "-0" + month + "-" + day ;
 			} else if (month > 10 && day < 10) {
-				time = year + "-" + month + "-0" + day + " 00:00:00";
+				time = year + "-" + month + "-0" + day ;
 			} else {
-				time = year + "-" + month + "-" + day + " 00:00:00";
+				time = year + "-" + month + "-" + day ;
 			}
 			// 日期格式:2018-08-20
 			// 如果不是周六日
-			/*
+			
 			 * System.out.println(); }else{
-			 */
-			String workDateFrom = "2018-11-09 00:00:00";
-			String workDateTo = "2018-11-09 23:00:00";
-			System.out.println(time + "time");
+			 
+			//起始日期
+			String workDateFrom = time+" 00:00:00";
+			//结束日期
+			String workDateTo = time+" 23:00:00";
+			System.out.println( "time*****************"+time);
 			for (int a = 0; a < DepArr.size(); a++) {
 
 				Map<String, Integer> map = (Map<String, Integer>) DepArr.get(a);
+				System.out.println("mappppppppppppppp"+map);
 				String value = map.get("id").toString();
+				System.out.println("//////////"+value);
 				if (value.equals("1")) {
 				} else {
 					String accessToken1 = AuthHelper.getAccessToken(Env.CORP_ID, Env.CORP_SECRET);
@@ -323,17 +330,20 @@ public class TimerTask {
 
 								net.sf.json.JSONArray deps = jsonObject2.getJSONArray("recordresult");
 								List listmap = deps.toList(deps, DingJON.class);
-								System.out.println("listmap" + listmap);
+								
 								// System.out.println(listmap.size()+"长度"+listmap);
+								//如果不是周六日
 								if (!isWeekend(time)) {
 									if (listmap != null && listmap.size() != 0) {
 										int p = listmap.get(0).toString().indexOf("locationResult=");
 										int p1 = listmap.get(0).toString().indexOf("planId");
 										int p2 = listmap.get(1).toString().indexOf("locationResult=");
 										int p3 = listmap.get(1).toString().indexOf("planId");
+										//上午打卡状态
 										String state = listmap.get(0).toString().substring(p + 15, p1 - 2);
+										//下午打卡状态
 										String state1 = listmap.get(1).toString().substring(p2 + 15, p3 - 2);
-
+                                     //如果未打卡
 										if (state.equals("NotSigned")) {
 											List<Staff> listStaffs = staffService.getStaff(jobnumber);
 											if (listStaffs != null) {
@@ -342,7 +352,7 @@ public class TimerTask {
 												salaryService.updateNumber(id, year, month);
 											}
 										}
-
+										 //如果迟到
 										else if (state.equals("Late")) {
 
 											List<Staff> listStaff = staffService.getStaff(jobnumber);
@@ -353,12 +363,15 @@ public class TimerTask {
 												salaryService.touplate(id, year, month);
 												setupdateSalary(listStaff.get(0).getEntry_date(), year, month, day, id);
 											}
-										} else {
-
+										}  //正常打卡
+										else {
+											
 											List<Staff> listStaff = staffService.getStaff(jobnumber);
-											System.out.println("listStaff" + listStaff);
+										
 											if (listStaff != null) {
+												System.out.println("状态**********" + state);
 												long id = listStaff.get(0).getId();
+												
 												setupdateSalary(listStaff.get(0).getEntry_date(), year, month, day, id);
 											}
 										}
@@ -385,9 +398,10 @@ public class TimerTask {
 
 										else {
 
-											System.out.println("状态" + state1);
+											
 											List<Staff> listStaff = staffService.getStaff(jobnumber);
 											if (listStaff != null) {
+												System.out.println("状态" + state1);
 												long id = listStaff.get(0).getId();
 
 												setupdateSalary(listStaff.get(0).getEntry_date(), year, month, day, id);
@@ -416,7 +430,7 @@ public class TimerTask {
 
 	}
 
-	/**
+	*//**
 	 * @description 判断这天是否转正
 	 *
 	 * @param date
@@ -426,30 +440,31 @@ public class TimerTask {
 	 * @param id
 	 * @author lichangchun
 	 * @createDate
-	 */
-	public void setupdateSalary(String timeone, int year, int month, int day, Long id) {
+	 *//*
+	public void setupdateSalary(入职日期String timeone, 当前年份int year, 当前月份int month, 当前天数int day, Long id) {
+		System.out.println("timeone"+timeone);
 	
 		int yearone = Integer.parseInt(timeone.substring(0, 4));
 		int monthon = Integer.parseInt(timeone.substring(5, 7));
 		int dayone = Integer.parseInt(timeone.substring(8, 10));
 		if (year > yearone || (month - 3 == monthon && day > dayone) || month - 3 > monthon) {
 			
-			int a = salaryService.updateSalary(id, year, month);
+			salaryService.updateSalary(id, year, month);
 		
 		} else {
 			salaryService.noupdateSalary(id, year, month);
 		}
 	}
 
-	/**
+	*//**
 	 * 判断日期是否是周六日,返回false即不是周六日
 	 * 
 	 * @param date
 	 * @return
 	 * @throws ParseException
-	 */
+	 *//*
 	public static boolean isWeekend(String date) throws ParseException {
-		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		DateFormat format1 = new SimpleDateFormat("yyyy-MM-dd");
 
 		Date bdate = format1.parse(date);
 		Calendar cal = Calendar.getInstance();
@@ -528,11 +543,11 @@ public class TimerTask {
 	}
 	
 
-	/**
+	*//**
 	 * 获取每个人的请假天数
 	 * 
 	 * @throws Exception
-	 */
+	 *//*
 	@Scheduled(cron = "0 10 2 * * ?")
 	public void toAddSalary1() throws Exception {
 
@@ -542,7 +557,7 @@ public class TimerTask {
 		// 月
 		int month = cal.get(Calendar.MONTH) + 1;
 		int day = cal.get(Calendar.DAY_OF_MONTH) - 1;
-		/* 获取当月天数 */
+		 获取当月天数 
 		cal.set(Calendar.DATE, 1);
 		cal.roll(Calendar.DATE, -1);
 		int maxDate = cal.get(Calendar.DATE);
@@ -550,9 +565,9 @@ public class TimerTask {
 		String accessToken;
 		accessToken = AuthHelper.getAccessToken(Env.CORP_ID, Env.CORP_SECRET);
 
-		/** 获取审批实例所需要的唯一process_code */
+		*//** 获取审批实例所需要的唯一process_code *//*
 		String process_code = "PROC-EF6YRO35P2-UYCJM3V5TLOJZBCFVBDQ1-2QD03M0J-BR";
-		/** 获取审批实例的接口地址 */
+		*//** 获取审批实例的接口地址 *//*
 		String recordUrl = "https://oapi.dingtalk.com/topapi/processinstance/listids?access_token=" + accessToken;
 		JSONObject jsonObject = new JSONObject();
 		Date date = new Date();
@@ -562,13 +577,13 @@ public class TimerTask {
 
 		net.sf.json.JSONObject jsonObjectone = HttpRequestUtil.doPost(recordUrl, jsonObject);
 
-		/** 获取json的属性值 */
+		*//** 获取json的属性值 *//*
 		String values = jsonObjectone.getString("result");
 
-		/** 字符串转json */
+		*//** 字符串转json *//*
 		JSONObject jsonObjecttwo = (JSONObject) JSON.parse(values);
 
-		/** 获取json的属性值 */
+		*//** 获取json的属性值 *//*
 		String v = jsonObjecttwo.getString("list");
 
 		String sTemp = v.substring(1, v.length() - 1);
@@ -618,49 +633,49 @@ public class TimerTask {
 				mapjob.put(id, strone);
 
 				if (mapjob.get(id).equals("事假")) {
-				/*	if (maxDate - day >= number) {*/
+					if (maxDate - day >= number) {
 						salaryService.toupleave(id, year, month, number);
-					/*} else {
+					} else {
 						salaryService.toupleave(id, year, month, maxDate - day);
 						salaryService.toupleave(id, year, month + 1, number - (maxDate - day));
-					}*/
+					}
 				} else if (mapjob.get(id).equals("病假")) {
 
-					/*if (maxDate - day >= number) {*/
+					if (maxDate - day >= number) {
 						salaryService.toupsick(id, year, month, number);
-					/*} else {
+					} else {
 						salaryService.toupsick(id, year, month, maxDate - day);
 						salaryService.toupsick(id, year, month + 1, number - (maxDate - day));
-					}*/
+					}
 				} else if (mapjob.get(id).equals("婚假")) {
-					/*if (maxDate - day >= number) {*/
+					if (maxDate - day >= number) {
 						salaryService.toupmarriage(id, year, month, number);
-					/*} else {
+					} else {
 						salaryService.toupmarriage(id, year, month, maxDate - day);
 						salaryService.toupmarriage(id, year, month + 1, number - (maxDate - day));
-					}*/
+					}
 				} else if (mapjob.get(id).equals("产假")) {
 
 					salaryService.toupmaternity(id, year, month, number);
-					/*salaryService.toupmaternity(id, year, month + 1, 30);
+					salaryService.toupmaternity(id, year, month + 1, 30);
 					salaryService.toupmaternity(id, year, month + 2, 30);
-					salaryService.toupmaternity(id, year, month + 3, number - 60 - (maxDate - day));*/
+					salaryService.toupmaternity(id, year, month + 3, number - 60 - (maxDate - day));
 
 				} else if (mapjob.get(id).equals("陪产假")) {
-				/*	if (maxDate - day >= number) {*/
+					if (maxDate - day >= number) {
 						salaryService.touppmaternity(id, year, month, number);
-				/*	} else {
+					} else {
 						salaryService.touppmaternity(id, year, month, maxDate - day);
 						salaryService.touppmaternity(id, year, month + 1, number - (maxDate - day));
-					}*/
+					}
 
 				} else {
-					/*if (maxDate - day >= number) {*/
+					if (maxDate - day >= number) {
 						salaryService.toupannualleave(id, year, month, number);
-					/*} else {
+					} else {
 						salaryService.toupannualleave(id, year, month, maxDate - day);
 						salaryService.toupannualleave(id, year, month + 1, number - (maxDate - day));
-					}*/
+					}
 
 				}
 			}
@@ -672,5 +687,5 @@ public class TimerTask {
 		
     	
     	timerTaskService.penaltyMoney();
-	}
+	}*/
 }

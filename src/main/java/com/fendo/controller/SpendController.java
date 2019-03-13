@@ -76,7 +76,7 @@ public class SpendController {
 	@RequestMapping("/financialSpendbytime")
 	@ResponseBody
      public List<Spend> financialSpendbytime(String time) {
-		System.out.println("time");
+		
 		
 		String timeone="%"+time+"%";
 
@@ -108,11 +108,12 @@ public class SpendController {
 	 */
 	@RequestMapping(value = "/toAddSpend", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultInfo toAddSpend(@RequestBody Spend spend) {
+	public ResultInfo toAddSpend(@RequestBody Spend spend,HttpSession session) {
 
-		ResultInfo result = new ResultInfo();
+		/*ResultInfo result = new ResultInfo();
 		try {
-			int rows = spendService.toAddSpend(spend);
+			spend.setEntry_person((String) session.getAttribute("name"));
+			//int rows = spendService.toAddSpend(spend);
 
 			if (rows >= 1) {
 
@@ -125,8 +126,8 @@ public class SpendController {
 			result.code = -1;
 			result.msg = "error";
 		}
-
-		return result;
+	*/
+		return null;
 	}
 
 	/**
@@ -178,10 +179,9 @@ public class SpendController {
 		ResultInfo result = new ResultInfo();
 		try {
 			int rows = spendService.toUpdateSpend(spend);
-			System.out.println(1111111);
-			System.out.println(rows);
+		
 			if (rows >= 1) {
-				System.out.println(2222);
+			
 				result.code = 0;
 				result.msg = "successfully!!";
 				return result;
@@ -220,7 +220,7 @@ public class SpendController {
 		}else{
 			 times = sdf.format(spend.getTimes());
 		}
-		System.out.println(spend);
+	
 		mv.addObject("spend", spend);
         mv.addObject("times",times);
 		mv.setViewName("ShowfinancialSpend");
@@ -238,6 +238,7 @@ public class SpendController {
 	@RequestMapping(value = "/updatePasszc", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultInfo toupdatePasszc(Spend spend, HttpSession session) {
+		
 		spend.setAuditor((String) session.getAttribute("name"));
 		spend.setRole((String) session.getAttribute("roletype"));
 		ResultInfo result = new ResultInfo();
@@ -270,25 +271,17 @@ public class SpendController {
 
 	@RequestMapping("/printSpend")
 	public ModelAndView printSpend(Spend spend, long id) {
-		System.out.println("*********");
+	
 		ModelAndView mv = new ModelAndView();
 		List<BranchOffice> branchOfficeList = branchofficeService.findArea();
 
 		spend = spendService.findById(id);
-		System.out.println("apend"+spend);
+	
 		if (branchOfficeList != null) {
 
 		}
 
-	/*	// 时间格式转换
-		SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
-		String times;
-		if(spend.getTimes()==null){
-			 times="";
-		}else{
-			 times = sformat.format(spend.getTimes());
-		}
-		*/
+	
 		
 		SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
 		String strDate = sformat.format(spend.getCreat_time());

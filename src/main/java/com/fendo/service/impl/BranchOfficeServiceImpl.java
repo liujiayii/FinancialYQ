@@ -25,7 +25,7 @@ public class BranchOfficeServiceImpl implements BranchOfficeService{
 	public List<BranchOffice> findArea() {
 		List<BranchOffice> branchOfficeList = branchofficeDao.findArea();
 		if(branchOfficeList!=null){
-			System.out.println("查询到的地区："+branchOfficeList);
+			
 		}
 		return branchOfficeList;
 	}
@@ -34,7 +34,7 @@ public class BranchOfficeServiceImpl implements BranchOfficeService{
 	public List<BranchOffice> getSalesMan() {
 		List<BranchOffice> list = branchofficeDao.getSalesMan();
 		if (list!=null) {
-			System.out.println(list + "查询到的业务员");
+			
 		}
 		return list;
 	}
@@ -59,7 +59,7 @@ public class BranchOfficeServiceImpl implements BranchOfficeService{
 	public List<BranchOffice> findArea1() {
 		List<BranchOffice> branchOfficeList = branchofficeDao.findArea();
 		if(branchOfficeList!=null){
-			System.out.println("查询到的地区："+branchOfficeList);
+			
 		}
 		return branchOfficeList;
 	}

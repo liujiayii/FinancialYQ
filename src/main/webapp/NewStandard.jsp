@@ -267,17 +267,17 @@
 		var count = 0;
 		var inputs = $('#myTables input')
 		for (var i = 0; i < inputs.length - 1; i++) {
-			var num = $(inputs[i]).val();				
-			if(isNaN(num)){
-				count= '请输入数字'
+			var num = $(inputs[i]).val();
+			if (isNaN(num)) {
+				count = '请输入数字'
 				break
-			}else if(num === ''){
+			} else if (num === '') {
 				num = 0
-			}else{
+			} else {
 				num = parseFloat(num);
 				count += num;
 			}
-			
+
 		}
 		$('#td_Amounts input').val(count);
 	})
@@ -285,17 +285,17 @@
 		var count = 0;
 		var inputs = $('#myTabless input')
 		for (var i = 0; i < inputs.length - 1; i++) {
-			var num = $(inputs[i]).val();				
-			if(isNaN(num)){
-				count= '请输入数字'
+			var num = $(inputs[i]).val();
+			if (isNaN(num)) {
+				count = '请输入数字'
 				break
-			}else if(num === ''){
+			} else if (num === '') {
 				num = 0
-			}else{
+			} else {
 				num = parseFloat(num);
 				count += num;
 			}
-			
+
 		}
 		$('#td_Amountss input').val(count);
 
@@ -360,8 +360,6 @@
 			$(".BusinessType").text(" ");
 		}
 
-		
-		
 		if (nums == "") {
 			$(".Nums").text("请输入标号(不可重复)");
 			return false;
@@ -389,7 +387,7 @@
 							formObject[item.name] = item.value;
 						});
 						var formJson = JSON.stringify(formObject);
-						alert()
+
 						$.ajax({
 							//几个参数需要注意一下
 							type : "POST",//方法类型
@@ -536,7 +534,7 @@
 
 	}
 	function findGrade(a) {
-		alert(1)
+
 		var grade = $("#grade").val();
 		a.value = a.value.replace(/[^0-9a-zA-Z]/g, '');
 		if (grade.trim() == '') {
@@ -569,7 +567,7 @@
 		$("#salesman").html("")
 		//如果第一个下拉列表的值改变则调用此方法
 		var area = $("#area").val();//得到第一个下拉列表的值
-		alert("获取地区成功" + area);
+
 		var url = "getlistsalesman.action?area=" + area;
 		$.getJSON(url, function(res) {
 			var option;

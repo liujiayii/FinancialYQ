@@ -35,6 +35,8 @@ public class Income implements Serializable{
 	private String area;
 	/* 姓名 */
 	private String name;
+	/*备注*/
+	private String remark;
 	/*收入集合*/
 	private List<IncomeItem> IncomeItemList;
 	private String income_name;
@@ -56,7 +58,21 @@ public class Income implements Serializable{
 	private String auditor;
 	/*审核人职业*/
 	private String role;
+	/*录入人*/
+	private String entry_person;
 	
+	public String getEntry_person() {
+		return entry_person;
+	}
+	public void setEntry_person(String entry_person) {
+		this.entry_person = entry_person;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	public String getRole() {
 		return role;
 	}
@@ -232,20 +248,22 @@ public class Income implements Serializable{
 	
 
 	
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
 	@Override
 	public String toString() {
 		return "Income [id=" + id + ", district_id=" + district_id + ", creat_time=" + creat_time + ", staff_id="
 				+ staff_id + ", state=" + state + ", title=" + title + ", sum=" + sum + ", area=" + area + ", name="
-				+ name + ", IncomeItemList=" + IncomeItemList + ", income_name=" + income_name + ", income_name1="
-				+ income_name1 + ", income_name2=" + income_name2 + ", income_name3=" + income_name3 + ", income_name4="
-				+ income_name4 + ", digest=" + digest + ", digest1=" + digest1 + ", digest2=" + digest2 + ", digest3="
-				+ digest3 + ", digest4=" + digest4 + ", money=" + money + ", money1=" + money1 + ", money2=" + money2
-				+ ", money3=" + money3 + ", money4=" + money4 + ", auditor=" + auditor + ", role=" + role + ", times="
-				+ times + "]";
+				+ name + ", remark=" + remark + ", IncomeItemList=" + IncomeItemList + ", income_name=" + income_name
+				+ ", income_name1=" + income_name1 + ", income_name2=" + income_name2 + ", income_name3=" + income_name3
+				+ ", income_name4=" + income_name4 + ", digest=" + digest + ", digest1=" + digest1 + ", digest2="
+				+ digest2 + ", digest3=" + digest3 + ", digest4=" + digest4 + ", money=" + money + ", money1=" + money1
+				+ ", money2=" + money2 + ", money3=" + money3 + ", money4=" + money4 + ", auditor=" + auditor
+				+ ", role=" + role + ", entry_person=" + entry_person + ", times=" + times + "]";
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	
 	
 	
 	

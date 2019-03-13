@@ -19,10 +19,10 @@
 		select * from t_income_cost where district_id=#{area}
 	</select>
 	<!-- 添加员工信息 -->
-	<insert id="toAddIncome" parameterType="com.fendo.entity.Income">
+	<insert id="toAddIncome" parameterType="com.fendo.entity.Income" useGeneratedKeys="true" keyProperty="id">
 		insert into
-		t_income_cost(id,title,sum,name,district_id,state,creat_time,income_name,income_name1,income_name2,income_name3,income_name4,digest,digest1,digest2,digest3,digest4,money,money1,money2,money3,money4,times)
-		values(null,#{title},#{sum},#{name},#{area},0,now(),#{income_name},#{income_name1},#{income_name2},#{income_name3},#{income_name4},#{digest},#{digest1},#{digest2},#{digest3},#{digest4},#{money},#{money1},#{money2},#{money3},#{money4},#{times})
+		t_income_cost(id,title,sum,name,district_id,state,creat_time,income_name,income_name1,income_name2,income_name3,income_name4,digest,digest1,digest2,digest3,digest4,money,money1,money2,money3,money4,times,remark,entry_person)
+		values(null,#{title},#{sum},#{name},#{area},0,now(),#{income_name},#{income_name1},#{income_name2},#{income_name3},#{income_name4},#{digest},#{digest1},#{digest2},#{digest3},#{digest4},#{money},#{money1},#{money2},#{money3},#{money4},#{times},#{remark},#{entry_person})
 	</insert>
 	<!-- 通过id查询 -->
 	<select id="findById1" resultType="com.fendo.entity.Income"
@@ -42,7 +42,7 @@
 	<update id="toUpdateIncome" parameterType="com.fendo.entity.Income">
 		UPDATE t_income_cost SET district_id=#{area},name=#{name},title=#{title},times=#{times},income_name=#{income_name},income_name1=#{income_name1},income_name2=#{income_name2},
 		income_name3=#{income_name3},income_name4=#{income_name4},digest=#{digest},digest1=#{digest1},digest2=#{digest2},digest3=#{digest3},digest4=#{digest4},
-		money=#{money},money1=#{money1},money2=#{money2},money3=#{money3},money4=#{money4},sum=#{sum}
+		money=#{money},money1=#{money1},money2=#{money2},money3=#{money3},money4=#{money4},sum=#{sum},remark=#{remark}
 		WHERE id=#{id}
 	</update>
 	<!-- 多条件查询 -->

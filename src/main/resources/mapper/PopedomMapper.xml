@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fendo.dao.PopedomDao">
+	
+	
+	<!-- 根据用户id查询所有权限 -->
+	<!-- List<Popedom> findPopedomByUserId(Long id); -->
+	<select id="findPopedomByUserId" resultType="com.fendo.entity.Popedom">
+		select
+			p.id as id,p.p_id as pId,p.popedom_name as popedomName,p.popedom_url as popedomUrl,p.create_time as createTime, p.update_time as updateTime
+		from t_user u 
+			 join t_user_popedom up on u.id = up.user_id
+			 join t_popedom p on up.p_id = p.p_id
+		where u.id=#{id}
+	</select>
+	
+	
+	<!-- 根据用户Id删除权限  -->
+	<!-- Integer deletePopedomById(Long id) -->
+	<delete id="deletePopedomById">
+		delete from t_user_popedom  where user_id=#{id}
+	</delete>
+	
+	
+	<!-- 根据用户id添加权限-->
+	<!-- Integer addPopedomById(UserPopedom userPopedom); -->
+	<insert id="addPopedomById" parameterType="com.fendo.entity.UserPopedom">
+		insert into
+			t_user_popedom(
+				id,
+				user_id,
+				p_id,
+				update_time
+			)values(
+				null,
+				#{userId},
+				#{pId},
+				#{updateTime}
+			)
+	</insert>
+	
+	
+	<!-- 分页查询用户信息 -->
+	<!-- List<User> findByLimit(Integer page, Integer limit) -->
+	<select id="findByLimit" resultType="com.fendo.entity.t_user">
+		select * from t_user limit #{page},#{limit}
+	</select>
+	
+	
+	<!-- 无条件查询有所用户信息 -->
+	<!-- List<User> findAll() -->
+	<select id="findAll" resultType="com.fendo.entity.t_user">
+		select * from t_user;
+	</select>
+	
+	
+	<!-- 根据关键字分页查询用户信息 -->
+	<!-- List<User> findUserByPhone(@Param("key")String key, @Param("page")Integer page, @Param("limit")Integer limit) -->
+	<select id="findUserByPhone" resultType="com.fendo.entity.t_user">
+		select 
+			* 
+		from 
+			t_user 
+			
+		where 
+			phone like #{key} or address like#{key} or  name like #{key} or post like #{key}
+		 limit #{page},#{limit}
+	</select>
+	
+	
+	<!-- 查询符合关键字条件的用户条数 -->
+	<!-- Integer findPhoneCount(String phones) -->
+	<select id="findPhoneCount" resultType="java.lang.Integer">
+		select count(*) from t_user where phone like #{key} or address like#{key} or  name like #{key} or post like #{key}
+	</select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

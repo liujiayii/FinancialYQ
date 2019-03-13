@@ -56,7 +56,7 @@ public class HttpRequestUtil {
             // 读取 HTTP 响应内容，这里简单打印网页内容
             byte[] responseBody = getMethod.getResponseBody();// 读取为字节数组
             response = new String(responseBody, param);
-            System.out.println("----------response:" + response);
+          
             // 读取为 InputStream，在网页内容数据量大时候推荐使用
             // InputStream response = getMethod.getResponseBodyAsStream();
         } catch (HttpException e) {

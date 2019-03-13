@@ -1,13 +1,20 @@
 
 package com.fendo.controller;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import java.text.SimpleDateFormat;
 
 import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.synth.SynthScrollBarUI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,16 +22,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.aliyun.oss.OSSClient;
 import com.fendo.entity.BranchOffice;
 import com.fendo.entity.DaNumber;
 import com.fendo.entity.Finance;
+import com.fendo.entity.Income;
 import com.fendo.entity.SalesMan;
+import com.fendo.entity.Spend;
 import com.fendo.service.BranchOfficeService;
 import com.fendo.service.FinanceService;
 import com.fendo.service.NewStandardService;
 import com.fendo.service.SalesmanService;
+import com.fendo.service.SpendService;
 import com.fendo.utils.Switch;
+import com.fendo.utils.UploadFile;
 
 @Controller
 public class FinanceController {
@@ -35,6 +50,8 @@ public class FinanceController {
 	private BranchOfficeService branchofficeService;
 	@Autowired
 	private SalesmanService salesmanService;
+	@Autowired
+	private SpendService spendService;
 
 	/**
 	 * 风控查询所有列表
@@ -114,16 +131,16 @@ public class FinanceController {
 	/**
 	 *
 	 * @Title: findArea1
-	
+	 * 
 	 * @description: 新标添加
 	 *
-	 * @param @return 
-	   
-	 * @return ModelAndView    
-	
+	 * @param @return
+	 * 
+	 * @return ModelAndView
 	 *
+	 * 
 	 * @author HanMeng
-	 * @createDate 2018年9月14日-下午3:06:43 
+	 * @createDate 2018年9月14日-下午3:06:43
 	 */
 	@RequestMapping("/addFinances")
 	public ModelAndView findArea1() {
@@ -146,14 +163,14 @@ public class FinanceController {
 	 * 
 	 *
 	 * @Title: findAll
-	
+	 * 
 	 * @description: 查询所有列表
 	 *
 	 * @param request
 	 * @param id
-	 * @return 
-	   
-	 * @return List<Finance>   
+	 * @return
+	 * 
+	 * @return List<Finance>
 	 *
 	 * @author HanMeng
 	 * @createDate 2018年9月14日-下午3:14:30
@@ -1002,20 +1019,20 @@ public class FinanceController {
 		List<BranchOffice> branchOfficeList = branchofficeService.findArea();
 		finance = financeService.findById(id);
 		List<BranchOffice> Listcode = branchofficeService.findArea2(finance.getArea());
-		
-		 try {
-				SalesMan salesName = salesmanService.getSalesNameById(finance.getS_id());
 
-				if (salesName != null) {
-					String saleName = salesName.getName();
+		try {
+			SalesMan salesName = salesmanService.getSalesNameById(finance.getS_id());
 
-					mv.addObject("saleName", saleName);
-				} else {
-					return null;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (salesName != null) {
+				String saleName = salesName.getName();
+
+				mv.addObject("saleName", saleName);
+			} else {
+				return null;
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		// 时间格式转换
 		SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
 		String strDate = sformat.format(finance.getTime());
@@ -1046,7 +1063,7 @@ public class FinanceController {
 		}
 		BigDecimal money = stopMoney.add(interest).add(serviceMoney).add(gpsMoney).add(archivesMoney);
 		System.out.println("WOSHI BigDecimal " + money);
-			// BigDecimal numberOfMoney = 1.subtract(subtrahend);
+		// BigDecimal numberOfMoney = 1.subtract(subtrahend);
 		String s = Switch.number2CNMontrayUnit(money);
 
 		if (finance.getServiceMoney() != null) {
@@ -1056,10 +1073,9 @@ public class FinanceController {
 		String service = Switch.number2CNMontrayUnit(serviceMoney);
 
 		List<DaNumber> list = financeService.getNumber();
-		
-		
-			int n = list.get(0).getNumber();
-	
+
+		int n = list.get(0).getNumber();
+
 		mv.setViewName("printXB");
 		mv.addObject("strDate", strDate);
 		mv.addObject("branchOfficeList", branchOfficeList);
@@ -1183,16 +1199,25 @@ public class FinanceController {
 	 * @param f
 	 * @param session
 	 * @return
+	 * @throws IOException
 	 */
 	@RequestMapping(value = "/updatePass", method = RequestMethod.POST)
 	@ResponseBody
-	public ResultInfo toCheckTG(@RequestBody Finance finance, HttpSession session) {
+	public ResultInfo toCheckTG(@RequestBody Finance finance, HttpSession session, ServletResponse servletResponse)
+			throws IOException {
 
 		ResultInfo result = new ResultInfo();
+		HttpServletResponse response = (HttpServletResponse) servletResponse;
 
+		if ((String) session.getAttribute("names") == null) {
+			response.sendRedirect("/toLogin.action");
+		}
+		finance.setAuditor((String) session.getAttribute("name"));
+		finance.setRole((String) session.getAttribute("roletype"));
 		try {
+			System.out.println("finance" + finance);
 			int rows = financeService.updatePass(finance);
-
+			System.out.println("finance*********" + finance);
 			if (rows >= 1) {
 
 				result.code = 0;
@@ -1219,7 +1244,7 @@ public class FinanceController {
 	@ResponseBody
 	public ResultInfo toCheckDH(@RequestBody Finance finance, HttpSession session) {
 		ResultInfo result = new ResultInfo();
-		
+
 		try {
 			int rows = financeService.updateBack(finance);
 
@@ -1254,7 +1279,7 @@ public class FinanceController {
 
 		try {
 			int rows = financeService.toupNumber(number);
-			System.out.println("rows:"+rows);
+			System.out.println("rows:" + rows);
 			if (rows >= 1) {
 
 				result.code = 0;
@@ -1552,6 +1577,7 @@ public class FinanceController {
 
 		finance.setArea(Listcode.get(0).getArea_code());
 		ResultInfo result = new ResultInfo();
+
 		try {
 			// 财务填写
 			finance.setState(1);
@@ -1575,7 +1601,7 @@ public class FinanceController {
 	 * @return
 	 */
 	@RequestMapping("/toPrincipalcw")
-	public ModelAndView toPrincipalcw() {
+	public ModelAndView toPrincipalcw(HttpSession session) {
 
 		ModelAndView mv = new ModelAndView();
 
@@ -1587,6 +1613,7 @@ public class FinanceController {
 
 		mv.setViewName("principalcw");
 		mv.addObject("branchOfficeList", branchOfficeList);
+		mv.addObject("riskman", session.getAttribute("name"));
 
 		return mv;
 	}
@@ -1814,6 +1841,15 @@ public class FinanceController {
 			mv.addObject("strDate", strDate);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		if (finance.getReceiptType() == 1) {
+			mv.addObject("receipttype", "续贷还平台");
+		} else if (finance.getReceiptType() == 2) {
+			mv.addObject("receipttype", "到期还平台");
+		} else if (finance.getReceiptType() == 3) {
+			mv.addObject("receipttype", "逾期还平台");
+		} else if (finance.getReceiptType() == 4) {
+			mv.addObject("receipttype", "提前还平台");
 		}
 		mv.addObject("finance", finance);
 		mv.setViewName("Checkcwbj");
@@ -2048,8 +2084,8 @@ public class FinanceController {
 			System.out.println("风控利息成功获取到地址列表");
 		}
 		finance = financeService.findById(id);
-		System.out.println(id+"idqqqqqqqqqqqq");
-		System.out.println(finance+"finance");
+		System.out.println(id + "idqqqqqqqqqqqq");
+		System.out.println(finance + "finance");
 		List<BranchOffice> Listcode = branchofficeService.findArea2(finance.getArea());
 		finance.setArea(Listcode.get(0).getArea());
 		mv.addObject("finance", finance);
@@ -2103,7 +2139,7 @@ public class FinanceController {
 		}
 
 		finance = financeService.findById(id);
-		System.out.println(id+"idoooooooooooo");
+		System.out.println(id + "idoooooooooooo");
 		List<BranchOffice> Listcode = branchofficeService.findArea2(finance.getArea());
 		finance.setArea(Listcode.get(0).getArea());
 		if (finance.getInterest() != null) {
@@ -2193,6 +2229,17 @@ public class FinanceController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		if (finance.getReceiptType() == 1) {
+			mv.addObject("receipttype", "续贷还平台");
+		} else if (finance.getReceiptType() == 2) {
+			mv.addObject("receipttype", "到期还平台");
+		} else if (finance.getReceiptType() == 3) {
+			mv.addObject("receipttype", "逾期还平台");
+		} else if (finance.getReceiptType() == 4) {
+			mv.addObject("receipttype", "提前还平台");
+		}
+
 		mv.setViewName("ShowPrincipalcw");
 		mv.addObject("branchOfficeList", branchOfficeList);
 		mv.addObject("finance", finance);
@@ -2309,9 +2356,70 @@ public class FinanceController {
 		List<BranchOffice> branchOfficeList = branchofficeService.findArea();
 		finance = financeService.findById(id);
 		List<BranchOffice> Listcode = branchofficeService.findArea2(finance.getArea());
+
+		/*
+		 * try { SalesMan salesName =
+		 * salesmanService.getSalesNameById(finance.getS_id()); if (salesName !=
+		 * null) { String saleName = salesName.getName();
+		 * mv.addObject("saleName", saleName); } else { return null; } } catch
+		 * (Exception e) { e.printStackTrace(); }
+		 */
+		// 时间格式转换
+		try {
+			SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
+			String strDate = sformat.format(finance.getTime());
+
+			mv.addObject("strDate", strDate);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		// 本金
+		BigDecimal refinancePrincipal = new BigDecimal("0.00");
+		// 利息
+		BigDecimal maturityPrincipal = new BigDecimal("0.00");
+
+		if (finance.getRefinancePrincipal() != null) {
+			refinancePrincipal = finance.getPrincipals();
+		}
+		if (finance.getMaturityPrincipal() != null) {
+			maturityPrincipal = finance.getAccrual();
+		}
+
+		// 小写转大写
+		BigDecimal money = refinancePrincipal.add(maturityPrincipal);
+
+		String amount = Switch.number2CNMontrayUnit(money);
+		List<DaNumber> list = financeService.getNumber();
+
+		int n = list.get(0).getNumber();
+		mv.addObject("area", Listcode.get(0).getArea());
+		mv.addObject("number", n);
+		mv.addObject("finance", finance);
+		mv.setViewName("Printcwbj");
+		mv.addObject("branchOfficeList", branchOfficeList);
+		mv.addObject("amount", amount.toString());
+		return mv;
+	}
+
+	/**
+	 * 风控本金打印
+	 * 
+	 * @param finance
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/Printfkbj")
+	public ModelAndView Printfkbj(Finance finance, Long id) {
+
+		ModelAndView mv = new ModelAndView();
+		List<BranchOffice> branchOfficeList = branchofficeService.findArea();
+		finance = financeService.findById(id);
+		List<BranchOffice> Listcode = branchofficeService.findArea2(finance.getArea());
 		finance.setArea(Listcode.get(0).getArea());
+
 		try {
 			SalesMan salesName = salesmanService.getSalesNameById(finance.getS_id());
+
 			if (salesName != null) {
 				String saleName = salesName.getName();
 				mv.addObject("saleName", saleName);
@@ -2352,75 +2460,7 @@ public class FinanceController {
 		}
 		// 小写转大写
 		BigDecimal money = refinancePlatform.add(maturityPlatform).add(overduePlatform).add(prepaymentPlatform);
-		String amount = Switch.number2CNMontrayUnit(money);
-		List<DaNumber> list = financeService.getNumber();
 
-		int n = list.get(0).getNumber();
-
-		mv.addObject("number", n);
-		mv.addObject("finance", finance);
-		mv.setViewName("Printcwbj");
-		mv.addObject("branchOfficeList", branchOfficeList);
-		mv.addObject("amount", amount.toString());
-		return mv;
-	}
-
-	/**
-	 * 风控本金打印
-	 * 
-	 * @param finance
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping("/Printfkbj")
-	public ModelAndView Printfkbj(Finance finance, Long id) {
-		ModelAndView mv = new ModelAndView();
-		List<BranchOffice> branchOfficeList = branchofficeService.findArea();
-		finance = financeService.findById(id);
-		List<BranchOffice> Listcode = branchofficeService.findArea2(finance.getArea());
-		finance.setArea(Listcode.get(0).getArea());
-		try {
-			SalesMan salesName = salesmanService.getSalesNameById(finance.getS_id());
-			if (salesName != null) {
-				String saleName = salesName.getName();
-				mv.addObject("saleName", saleName);
-			} else {
-				return null;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// 时间格式转换
-		try {
-			SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
-			String strDate = sformat.format(finance.getTime());
-
-			mv.addObject("strDate", strDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		// 续贷还平台
-		BigDecimal refinancePrincipal = new BigDecimal("0.00");
-		// 到期还平台
-		BigDecimal maturityPrincipal = new BigDecimal("0.00");
-		// 逾期还平台
-		BigDecimal overduePrincipal = new BigDecimal("0.00");
-		// 提前还平台
-		BigDecimal prepaymentPrincipal = new BigDecimal("0.00");
-		if (finance.getRefinancePrincipal() != null) {
-			refinancePrincipal = finance.getRefinancePrincipal();
-		}
-		if (finance.getMaturityPrincipal() != null) {
-			maturityPrincipal = finance.getMaturityPrincipal();
-		}
-		if (finance.getOverduePrincipal() != null) {
-			overduePrincipal = finance.getOverduePrincipal();
-		}
-		if (finance.getPrepaymentPrincipal() != null) {
-			prepaymentPrincipal = finance.getPrepaymentPrincipal();
-		}
-		// 小写转大写
-		BigDecimal money = refinancePrincipal.add(maturityPrincipal).add(overduePrincipal).add(prepaymentPrincipal);
 		String amount = Switch.number2CNMontrayUnit(money);
 		List<DaNumber> list = financeService.getNumber();
 
@@ -2546,5 +2586,42 @@ public class FinanceController {
 		mv.addObject("amount", amount.toString());
 		return mv;
 	}
+	
+	
+	
+	/**
+	 * 添加支出信息
+	 * 
+	 * @param income
+	 * @return
+	 */
+	
+	@RequestMapping(value = "/toAddSpends", method = RequestMethod.POST)
+	@ResponseBody
+	public Map<String,Object> toAddIncome(@RequestBody Spend spend,HttpSession session) {
+		System.out.println("----->>>"+spend.toString());
+		//spend.setEntry_person(session.getAttribute("username").toString());
+		Map<String,Object> map = spendService.toAddSpend(spend);
+		return map;
+	}
+	
+	@RequestMapping(value="/toAddSpendImg")
+	@ResponseBody
+	public Map<String,Object> toAddSpendImg(HttpServletRequest request,Long id){
+		MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+		List<MultipartFile> files = multipartRequest.getFiles("file");
+		Map<String,Object> map = spendService.toAddSpend(id, files);
+		return map;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }

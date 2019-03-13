@@ -4,8 +4,7 @@
 <div class="content">
 	<div class="sub-box">
 		<div class="sub-right">
-			<input type="text" value="" name="name" class="sub-search" placeholder="请输入电话" id="inputPhone" onkeyup="findCompany()"/>
-			<input type="button" value="添加" class="sub-button" />
+			<input type="text" value="" name="name" class="sub-search" placeholder="请输入电话" id="inputPhone" onkeyup="findCompany()" /> <input type="button" value="添加" class="sub-button" />
 		</div>
 	</div>
 	<table id="cs_table" class="table_tbs" rules=rows>
@@ -27,7 +26,7 @@
 		</div>
 		<span class='popup-error' id="phone-error"></span>
 		<div class="popup-layer" style="text-align: center;">
-			
+
 			<input type="button" class="popup-sub" value="添加" onclick="add()" /> <input type="button" value="取消" class="popup-return" />
 		</div>
 	</form>
@@ -71,14 +70,16 @@
 					company_name : res[i].company_name,
 					legal_person : res[i].legal_person,
 					phone : res[i].phone,
-					操作 : "<a onclick='edit(" +res[i].id+","+ JSON.stringify(res[i].company_name) + "," + JSON.stringify(res[i].legal_person) + "," + JSON.stringify(res[i].phone) + ")'><img src='images/editors.png'></a>"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='/toDeleteCompany.action?id="+res[i].id+"'><img src='images/deletes.png'></a>"
+					操作 : "<a onclick='edit(" + res[i].id + "," + JSON.stringify(res[i].company_name) + "," + JSON.stringify(res[i].legal_person) + ","
+							+ JSON.stringify(res[i].phone) + ")'><img src='images/editors.png'></a>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='/toDeleteCompany.action?id="
+							+ res[i].id + "'><img src='images/deletes.png'></a>"
 				};
-				
+
 			}
 			console.log(data)
 			var cs = new table({
 				"tableId" : "cs_table", //必须
-				"headers" : [ "序号", "公司名称", "法人代表","手机号", "操作" ], //必须
+				"headers" : [ "序号", "公司名称", "法人代表", "手机号", "操作" ], //必须
 				"data" : data, //必须
 				"displayNum" : 5, //必须  默认 10
 				"groupDataNum" : 10
@@ -89,27 +90,35 @@
 			}
 		});
 	});
-	
-	function findCompany(){
+
+	function findCompany() {
 		var phone = $("#inputPhone").val();
-		var url='';
-		if(phone.trim()==''){
-			url= "toCustCompanyInfo.action";
-		}else{
-			url= "toFindCompanyByPhone.action?phone="+phone;
+		var url = '';
+		if (phone.trim() == '') {
+			url = "toCustCompanyInfo.action";
+		} else {
+			url = "toFindCompanyByPhone.action?phone=" + phone;
 		}
-		$.getJSON(url,function(res){
-			
+		$.getJSON(url, function(res) {
+
 			var data = [];
-			for(var i=0;i<res.length;i++){
-				
-				 data[i] = {id:res[i].id,company_name:res[i].company_name,legal_person:res[i].legal_person,phone:res[i].phone,操作 : "<a onclick='edit(" + res[i].id + "," + JSON.stringify(res[i].company_name) + ","+JSON.stringify(res[i].legal_person)+"," + JSON.stringify(res[i].phone) + ")'><img src='images/editors.png'></a>"+"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='/toDeleteCompany.action?id="+res[i].id+"'><img src='images/deletes.png'></a>"};
-			
+			for (var i = 0; i < res.length; i++) {
+
+				data[i] = {
+					id : res[i].id,
+					company_name : res[i].company_name,
+					legal_person : res[i].legal_person,
+					phone : res[i].phone,
+					操作 : "<a onclick='edit(" + res[i].id + "," + JSON.stringify(res[i].company_name) + "," + JSON.stringify(res[i].legal_person) + ","
+							+ JSON.stringify(res[i].phone) + ")'><img src='images/editors.png'></a>" + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href='/toDeleteCompany.action?id="
+							+ res[i].id + "'><img src='images/deletes.png'></a>"
+				};
+
 			}
-		  	console.log(data)
+			console.log(data)
 			var cs = new table({
 				"tableId" : "cs_table", //必须
-				"headers" : [ "序号", "公司名称", "法人代表","手机号", "操作" ], //必须
+				"headers" : [ "序号", "公司名称", "法人代表", "手机号", "操作" ], //必须
 				"data" : data, //必须
 				"displayNum" : 5, //必须  默认 10
 				"groupDataNum" : 10
@@ -120,7 +129,7 @@
 			}
 		});
 	}
-	
+
 	/*弹窗 */
 	$('.sub-button').click(function() {
 		$('#popup').show();
@@ -136,7 +145,7 @@
 	function add() {
 
 		var name = $('#name').val().trim();
-		var person= $('#person').val().trim();
+		var person = $('#person').val().trim();
 		var phone = $('#phone').val().trim();
 		console.log(name);
 		console.log(person);
@@ -163,7 +172,6 @@
 		var formObject = {};
 
 		var formArray = $("#ff").serializeArray();
-		
 
 		$.each(formArray, function(i, item) {
 
@@ -171,8 +179,7 @@
 
 		});
 		var formJson = JSON.stringify(formObject);
-		
-		
+
 		$.ajax({
 
 			//几个参数需要注意一下
@@ -196,7 +203,7 @@
 		});
 	}
 	/*修改弹窗*/
-	function edit(id,company_name,legal_person,phone) {
+	function edit(id, company_name, legal_person, phone) {
 		$('#edit_id').val(id);
 		$('#name-edit').val(company_name);
 		$("#person-edit").val(legal_person);
@@ -221,7 +228,7 @@
 		} else {
 			$('#person-error-edit').html('');
 		}
-		
+
 		if (phone == '') {
 			$('#phone-error-edit').html('电话不能为空！');
 			return false;
@@ -238,7 +245,7 @@
 
 		});
 		var formJson = JSON.stringify(formObject);
-		alert(formJson)
+
 		$.ajax({
 
 			//几个参数需要注意一下

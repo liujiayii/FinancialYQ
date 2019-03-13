@@ -37,21 +37,34 @@
 					<tr>
 						<td>报销项目</td><td colspan="4">摘要</td><td colspan="3"><b>金额</b></td>
 					</tr>
-					<tr>
-						<td>${income.income_name}</td><td colspan="4">${income.digest}</td><td colspan="3"><b>${income.money}</b></td>
+						<tr>
+						<td>${income.income_name}</td><td colspan="4">${income.digest}</td><td colspan="3">${income.money}</td>
 					</tr>
-					<tr>
+					
+						<c:if test="${income.money1!=null  or income.digest1!=''}" >
+					  <tr>
 						<td>${income.income_name1}</td><td colspan="4">${income.digest1}</td><td colspan="3"><b>${income.money1}</b></td>
-					</tr>
-					<tr>
+					  </tr>
+					
+					</c:if>
+						<c:if test="${income.money2!=null   or income.digest2!=''}" >
+					  <tr>
 						<td>${income.income_name2}</td><td colspan="4">${income.digest2}</td><td colspan="3"><b>${income.money2}</b></td>
-					</tr>
-					<tr>
+					  </tr>
+					
+					</c:if>
+						<c:if test="${income.money3!=null   or income.digest3!=''}" >
+					  <tr>
 						<td>${income.income_name3}</td><td colspan="4">${income.digest3}</td><td colspan="3"><b>${income.money3}</b></td>
-					</tr>
-					<tr>
+					  </tr>
+					
+					</c:if>
+						<c:if test="${income.money4!=null   or income.digest4!=''}" >
+					  <tr>
 						<td>${income.income_name4}</td><td colspan="4">${income.digest4}</td><td colspan="3"><b>${income.money4}</b></td>
-					</tr>
+					  </tr>
+					
+					</c:if>
 					<tr>
 						<td>
 							<div class="total left">
@@ -76,7 +89,7 @@
 					<span class="vertical" id="spantwo"></span>
 					<span class="vertical">出&nbsp;&nbsp;&nbsp;&nbsp;纳</span>
 <!-- 					<span class="vertical">审&nbsp;&nbsp;&nbsp;&nbsp;核</span>
- -->					<span class="vertical" id="spanthree"></span>
+ -->					<span class="vertical" ></span>
 					<span class="vertical">经&nbsp;&nbsp;&nbsp;&nbsp;办</span>
 					<span class="vertical">${income.name}</span>
 				</div>
@@ -92,22 +105,18 @@
 	<script type="text/javascript">
 	 
 	$(function(){
+	
 		
 		var name="${income.auditor}";
 		
 		var roletype="${income.role}";
 		
-	 	if(roletype=='记账'){
-			
-			
-			$("#spantwo").html(name);
-		}if(roletype=='主管'){
+	 	var entry_person="${income.entry_person}";
+		$("#spantwo").html(entry_person);
+		if(roletype=='主管'){
 			$("#spanone").html(name);
 			
-		}if(roletype=='财务总监'){
-			$("#spanthree").html(name);
-			
-		} 
+		}
 		
 	})
 		function doPrint() {

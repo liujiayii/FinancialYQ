@@ -84,7 +84,7 @@
 
 	<!-- 按名字查询对应的id -->
 	<select id="getStaff" resultType="com.fendo.entity.Staff">
-		select id,create_time
+		select id,entry_date
 		from t_staff 
 		where job_number=#{name}
 	</select>

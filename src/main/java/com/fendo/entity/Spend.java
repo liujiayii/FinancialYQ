@@ -34,6 +34,8 @@ public class Spend implements Serializable{
 	private String area;
 	/* 姓名 */
 	private String name;
+	/*备注*/
+	private String remark;
 	/*收入集合*/
 	private List<IncomeItem> IncomeItemList;
 	private String spend_name;
@@ -56,7 +58,15 @@ public class Spend implements Serializable{
 	private String auditor;
 	/*审核人职业*/
 	private String role;
+	/*录入人*/
+	private String entry_person;
 	
+	public String getEntry_person() {
+		return entry_person;
+	}
+	public void setEntry_person(String entry_person) {
+		this.entry_person = entry_person;
+	}
 	/*输入日期*/
 	private Date times;
 	
@@ -232,16 +242,24 @@ public class Spend implements Serializable{
 	public void setMoney4(BigDecimal money4) {
 		this.money4 = money4;
 	}
+	
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 	@Override
 	public String toString() {
 		return "Spend [id=" + id + ", district_id=" + district_id + ", creat_time=" + creat_time + ", staff_id="
 				+ staff_id + ", state=" + state + ", title=" + title + ", sum=" + sum + ", area=" + area + ", name="
-				+ name + ", IncomeItemList=" + IncomeItemList + ", spend_name=" + spend_name + ", spend_name1="
-				+ spend_name1 + ", spend_name2=" + spend_name2 + ", spend_name3=" + spend_name3 + ", spend_name4="
-				+ spend_name4 + ", digest=" + digest + ", digest1=" + digest1 + ", digest2=" + digest2 + ", digest3="
-				+ digest3 + ", digest4=" + digest4 + ", money=" + money + ", money1=" + money1 + ", money2=" + money2
-				+ ", money3=" + money3 + ", money4=" + money4 + ", auditor=" + auditor + ", role=" + role + ", times="
-				+ times + "]";
+				+ name + ", remark=" + remark + ", IncomeItemList=" + IncomeItemList + ", spend_name=" + spend_name
+				+ ", spend_name1=" + spend_name1 + ", spend_name2=" + spend_name2 + ", spend_name3=" + spend_name3
+				+ ", spend_name4=" + spend_name4 + ", digest=" + digest + ", digest1=" + digest1 + ", digest2="
+				+ digest2 + ", digest3=" + digest3 + ", digest4=" + digest4 + ", money=" + money + ", money1=" + money1
+				+ ", money2=" + money2 + ", money3=" + money3 + ", money4=" + money4 + ", auditor=" + auditor
+				+ ", role=" + role + ", entry_person=" + entry_person + ", times=" + times + "]";
 	}
+	
 	
 }

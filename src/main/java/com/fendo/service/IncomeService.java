@@ -1,12 +1,15 @@
 package com.fendo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fendo.entity.Income;
 import com.fendo.entity.IncomeItem;
 import com.fendo.entity.IncomeVo;
+import com.fendo.entity.Spend;
 import com.fendo.entity.Staff;
 
 /**
@@ -21,7 +24,7 @@ public interface IncomeService {
 	List<Income> findAllType();
 	/*添加收入信息*/
 	//int toAddIncome(IncomeVo income);
-	int toAddIncome(Income income);
+	Map<String,Object> toAddSpend(Long id, List<MultipartFile> files);
 	/*通过id查询*/
 	Income findById1(long id);
 	/*修改通过状态*/
@@ -36,4 +39,5 @@ public interface IncomeService {
 	 int toUpdateIncome(Income income);
 	 /*通过条件查询*/
 	 List<Income> findBySelective(Income income);
+	 Map<String,Object> toAddIncome(Income income);
 }

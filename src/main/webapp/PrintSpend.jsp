@@ -39,18 +39,30 @@
 					<tr>
 						<td>${spend.spend_name}</td><td colspan="4">${spend.digest}</td><td colspan="3">${spend.money}</td>
 					</tr>
-						<tr>
+					<c:if test="${spend.money1!=null   or spend.digest1!=''}" >
+					  <tr>
 						<td>${spend.spend_name1}</td><td colspan="4">${spend.digest1}</td><td colspan="3"><b>${spend.money1}</b></td>
-					</tr>
-					<tr>
+					  </tr>
+					
+					</c:if>
+							<c:if test="${spend.money2!=null   or spend.digest2!=''}" >
+					  <tr>
 						<td>${spend.spend_name2}</td><td colspan="4">${spend.digest2}</td><td colspan="3"><b>${spend.money2}</b></td>
-					</tr>
-					<tr>
+					  </tr>
+					
+					</c:if>
+							<c:if test="${spend.money3!=null   or spend.digest3!=''}" >
+					  <tr>
 						<td>${spend.spend_name3}</td><td colspan="4">${spend.digest3}</td><td colspan="3"><b>${spend.money3}</b></td>
-					</tr>
-					<tr>
+					  </tr>
+					
+					</c:if>
+						<c:if test="${spend.money4!=null   or spend.digest4!=''}" >
+					  <tr>
 						<td>${spend.spend_name4}</td><td colspan="4">${spend.digest4}</td><td colspan="3"><b>${spend.money4}</b></td>
-					</tr>
+					  </tr>
+					
+					</c:if>
 					<tr>
 						<td>
 							<div class="total left">
@@ -67,6 +79,7 @@
 						</td>
 					</tr>
 				</table>
+				<p>备注：${spend.remark}</p>
 				<span class="vertical">单位负责人</span>
 				<div class="right">
 					<span class="vertical">财务主管</span>
@@ -75,7 +88,7 @@
 					<span class="vertical" id="spantwo"></span>
 					<span class="vertical">出&nbsp;&nbsp;&nbsp;&nbsp;纳</span>
 <!-- 					<span class="vertical">审&nbsp;&nbsp;&nbsp;&nbsp;核</span>
- -->					<span class="vertical" id="spanthree"></span>
+ -->					<span class="vertical" ></span>
 					<span class="vertical">经&nbsp;&nbsp;&nbsp;&nbsp;办</span>
 					<span class="vertical">${spend.name}</span>
 				</div>
@@ -94,17 +107,15 @@
 		
 		var name="${spend.auditor}";
 		
+		
 		var roletype="${spend.role}";
 	
-		if(roletype=='记账'){
+		
 			
-			
-			$("#spantwo").html(name);
-		}if(roletype=='主管'){
+		var entry_person="${spend.entry_person}";
+			$("#spantwo").html(entry_person);
+		if(roletype=='主管'){
 			$("#spanone").html(name);
-			
-		}if(roletype=='财务总监'){
-			$("#spanthree").html(name);
 			
 		}
 		

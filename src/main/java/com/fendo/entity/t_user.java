@@ -14,7 +14,7 @@ public class t_user implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 	/*用户id*/
-	private String  id;
+	private long  id;
 	/*角色权限类型*/
 	private String role_type;
 	/*电话*/
@@ -31,8 +31,16 @@ public class t_user implements Serializable{
 	private Date create_time;
 	/*更新时间*/
 	private Date update_time;
+	/*用户权限*/
+	private String quanxian;
 	
 	
+	public String getQuanxian() {
+		return quanxian;
+	}
+	public void setQuanxian(String quanxian) {
+		this.quanxian = quanxian;
+	}
 	public Date getUpdate_time() {
 		return update_time;
 	}
@@ -55,10 +63,11 @@ public class t_user implements Serializable{
 	public t_user() {
 		super();
 	}
-	public String getId() {
+	
+	public long getId() {
 		return id;
 	}
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 	public String getRole_type() {
@@ -96,7 +105,8 @@ public class t_user implements Serializable{
 	@Override
 	public String toString() {
 		return "t_user [id=" + id + ", role_type=" + role_type + ", phone=" + phone + ", name=" + name + ", username="
-				+ username + ", password=" + password + ", status=" + status + "]";
+				+ username + ", password=" + password + ", status=" + status + ", create_time=" + create_time
+				+ ", update_time=" + update_time + ", quanxian=" + quanxian + "]";
 	}
 	
 	

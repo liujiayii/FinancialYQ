@@ -6,13 +6,13 @@
 			<div class="content">
 				<div class="sub-box">
 					
-					<ul class="sub-nav">
+					<!--  <ul class="sub-nav">
 						<li><a href="toStaff.action">员工管理</a></li>
 						<li><a href="toIncome.action" class="selected">收入费用</a></li>
 						<li><a href="toSpend.action">支出费用</a></li>
 						<li><a href="toFinanceManager.action">标的管理</a></li>
 						<li><a href="toCompany.action">公司管理</a></li>
-					</ul>
+					</ul>-->
 					<div class="sub-right">
 						<!-- <input type="button" value="添加" class="sub-button" onclick="window.location.href='toShowAddIncome.action'"/> -->
 					</div>

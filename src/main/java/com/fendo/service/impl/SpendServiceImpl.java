@@ -130,4 +130,9 @@ public  class SpendServiceImpl implements SpendService {
 		return map;
 	}
 
+	@Override
+	public List<Expend> findImgBySpendId(Long id) {
+		return spendDao.findImgBySpendId(id);
+	}
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.fendo.entity.Expend;
 import com.fendo.entity.Income;
 import com.fendo.entity.Spend;
 import com.fendo.entity.SpendItem;
@@ -40,4 +41,6 @@ public interface SpendDao {
 	 List<Spend> findAllTypebyarea(@Param("area")String area);
 	 /*修改支出费用*/
 	 int toUpdateSpend(Spend spend);
+
+	 List<Expend> findImgBySpendId(Long id);
 }

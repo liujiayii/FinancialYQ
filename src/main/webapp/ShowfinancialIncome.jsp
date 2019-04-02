@@ -2,6 +2,23 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <title>财务管理-收入费用-查看详情</title>
 <jsp:include page="nav.jsp"></jsp:include>
+<style>
+	.imgDiv{
+		height:200px;
+		widht:500px;
+		
+	}
+	.img{
+		width:200px;
+		height:150px;
+		float: left;
+		transition: all .5s;
+	}
+	.img:hover{
+		height:400px;
+		width:600px;
+	}
+</style>
 <div class="content">
 	<div class="sub-box">
 		<!-- <ul class="sub-nav">
@@ -14,6 +31,10 @@
 		</ul> -->
 		<div class="sub-right">
 			<input type="button" value="返回" class="sub-but" onclick="javascript:history.back(-1);" />
+		</div>
+		
+		<div class="control_tab">
+			<input type="button" style='display:none' value="通过" 'class="bgbtn" id="sub_form" onclick="pass()">
 		</div>
 	</div>
 	<div class="control">
@@ -87,10 +108,21 @@
 					<td width="110px" id="td_Amount"><input type="text" value="${income.sum }" name="sum" readonly style="border: none"></td>
 				</tr>
 			</table>
-			<p class="control_tab">
-				<input type="button" style='display:none' value="通过" 'class="bgbtn" id="shouru" onclick="pass()">
+			
+			
+			<!-- ***************************************************************************** -->
+			<div class="imgDiv layui-clear">
+				<c:forEach items="${receipts}" var="r">
+					<div class="img">
+						<img src="${r.file_url}" style="width:100%;height:100%">
+					</div>
+				</c:forEach>
+			</div> 
+			<!-- ***************************************************************************** -->
+			<!-- <p class="control_tab">
+				<input type="button"  style='text-align:center;background: #568bfc;display:none' value="通过" 'class="bgbtn" id="shouru" onclick="pass()">
 
-			</p>
+			</p> -->
 		</form>
 	</div>
 </div>

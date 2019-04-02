@@ -36,6 +36,11 @@
 <jsp:include page="footer.jsp"></jsp:include>
 </body>
 <script type="text/javascript">
+
+
+
+
+
 	/*一级导航栏选中 */
 	navSelected(4);
 
@@ -63,9 +68,10 @@
 					操作 : res[i].state == 0 ? "<a href='toShowfinancialIncome.action?id=" + res[i].id
 							+ "' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id=" + res[i].id
 							+ "' ><b style='color:#00a2ff'>作废</b></a>&nbsp;&nbsp;&nbsp;<a href='toUpdateFinancialIncome.action?id=" + res[i].id
-							+ "' ><b style='color:#00a2ff'>修改</b></a>" : "<a href='printIncome.action?id=" + res[i].id
-							+ "'><b style='color:#00a2ff'>打印</b></a>&nbsp;&nbsp;&nbsp;<a href='toShowfinancialIncome.action?id=" + res[i].id
-							+ "' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id=" + res[i].id
+							+ "' ><b style='color:#00a2ff'>修改</b></a>" : 
+								"<a href='printIncome.action?id=" + res[i].id
+							+ "'><b style='color:#00a2ff'>打印</b></a> &nbsp;&nbsp;&nbsp; <a href='toShowfinancialIncome.action?id=" + res[i].id
+							+ "' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp; <a href='todeleatefinancialIncome.action?id=" + res[i].id
 							+ "' ><b style='color:#00a2ff'>作废</b></a>"
 				};
 			}

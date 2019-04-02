@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fendo.entity.Expend;
 import com.fendo.entity.Income;
 import com.fendo.entity.IncomeVo;
 import com.fendo.entity.Spend;
@@ -39,4 +40,7 @@ public interface SpendService {
 	 
 	 
 	Map<String,Object> toAddSpend(Long id, List<MultipartFile> files);
+	
+	
+	List<Expend> findImgBySpendId(Long id);
 }

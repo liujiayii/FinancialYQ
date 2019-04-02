@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.fendo.entity.Income;
 import com.fendo.entity.IncomeItem;
 import com.fendo.entity.IncomeVo;
+import com.fendo.entity.Receipt;
 import com.fendo.entity.Spend;
 import com.fendo.entity.Staff;
 
@@ -40,4 +41,6 @@ public interface IncomeService {
 	 /*通过条件查询*/
 	 List<Income> findBySelective(Income income);
 	 Map<String,Object> toAddIncome(Income income);
+	 
+	 List<Receipt> findIncomeImgById(Long id );
 }

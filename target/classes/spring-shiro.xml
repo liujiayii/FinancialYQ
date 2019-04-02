@@ -47,7 +47,7 @@
 		<!-- 要求登录时的链接(可根据项目的URL进行替换),非必须的属性,默认会自动寻找Web工程根目录下的"/login.jsp"页面 -->
 		<property name="loginUrl" value="/toLogin.action" />
 		<!-- 登录成功后要跳转的页面 -->
-		<property name="successUrl" value="" />
+		<property name="successUrl" value="/login.action" />
 		<!-- 用户访问未对其授权的资源时,所显示的连接 -->
 		<property name="unauthorizedUrl" value="/pages/error/error.jsp" />
 		<!-- Shiro连接约束配置,即过滤链的定义 -->
@@ -64,10 +64,13 @@
 				/login/** = anon
 				/static/** = anon
 				/pages/layout/**= anon
+				/popedom/login.action=anon
+				/login.action=anon
 
 				/js/**= anon
 				/css/**== anon
 				/images/**=anon
+				/fonts/**=anon
 				
 				<!-- 风控全部列表  -->
 				/pages/customerInfo/carResources.jsp* =perms[client:carResources]
@@ -105,9 +108,14 @@
 				/pages/personManage/staffManage.jsp* =perms[company:management]
 				<!-- 公司信息 -->
 				/pages/personManage/accessManage.jsp* =perms[company:popedom]
-				
+				/popedom/**=anon
+				/findByPass.action=anon
+				/pages/personManage/home_page.jsp*=anon
+				/pages/personManage/financialStaff.jsp*=anon
 				<!-- 剩余其他路径，必须认证通过才可以访问 -->
-                 /** = anon  
+                 /** = anon 
+                 
+                  
 
                  <!-- /** = authc -->  
 

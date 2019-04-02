@@ -84,7 +84,8 @@
 				<i class="layui-icon">&#xe67c;</i>选择图片
 			</button>
 			<p class="control_tab">
-				<input type="button" value="提交" class="bgbtn" id="sub_form"> <input type="button" value="取消" class="bgbtn" style="background: #f45b63" onclick="javascript:history.back(-1);">
+				<input type="button" value="提交" class="bgbtn" id="sub_form" onclick="add()"> 
+				<input type="button" value="取消" class="bgbtn" style="background: #f45b63" onclick="javascript:history.back(-1);">
 			</p>
 			
 		</form>
@@ -181,7 +182,7 @@ layui.use('upload', function() {
 		$.ajax({
 			type : "POST",//方法类型
 			dataType : "json",//预期服务器返回的数据类型
-			url : "toAddIncome.action",
+			url : "/toAddIncome.action",
 			data : formJson,
 			contentType : 'application/json',
 			success : function(result) {

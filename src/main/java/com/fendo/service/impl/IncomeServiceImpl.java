@@ -145,4 +145,10 @@ public class IncomeServiceImpl implements IncomeService {
 	}
 	return map;
 	}
+
+	@Override
+	public List<Receipt> findIncomeImgById(Long id) {
+		List<Receipt> receipt = incomeDao.findIncomeImgById(id);
+		return receipt;
+	}
 }

@@ -31,6 +31,7 @@ public class ShiroRealm extends AuthorizingRealm{
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		Subject subject = SecurityUtils.getSubject();
+		System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr");
 	//	User user = (User)subject.getPrincipal();
 		//调用业务层，查询权限
     //	List<Popedom> popedoms = popedomService.findPopedomByUserId(user.getId());

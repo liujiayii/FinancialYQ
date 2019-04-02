@@ -48,4 +48,20 @@
 		money=#{money},money1=#{money1},money2=#{money2},money3=#{money3},money4=#{money4},sum=#{sum},remark=#{remark}
 		WHERE id=#{id}
 	</update>
+	
+	
+	
+	<!-- List<Spend> findImgBySpendId(Long id); -->
+	<select id="findImgBySpendId" resultType="com.fendo.entity.Expend"> 
+		select
+			*
+		from
+			t_expend
+		where
+			expend_id = #{id}
+	</select>
+	
+	
+	
+	
 </mapper>

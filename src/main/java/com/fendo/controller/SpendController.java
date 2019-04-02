@@ -2,8 +2,9 @@ package com.fendo.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -14,14 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
 import com.fendo.entity.BranchOffice;
-import com.fendo.entity.DaNumber;
-import com.fendo.entity.Finance;
-import com.fendo.entity.Income;
-import com.fendo.entity.IncomeVo;
-import com.fendo.entity.SalesMan;
+import com.fendo.entity.Expend;
 import com.fendo.entity.Spend;
-import com.fendo.entity.SpendVo;
 import com.fendo.service.BranchOfficeService;
 import com.fendo.service.SpendService;
 import com.fendo.utils.Switch;
@@ -101,36 +98,6 @@ public class SpendController {
 	}
 
 	/**
-	 * 添加支出信息
-	 * 
-	 * @param spend
-	 * @return
-	 */
-	@RequestMapping(value = "/toAddSpend", method = RequestMethod.POST)
-	@ResponseBody
-	public ResultInfo toAddSpend(@RequestBody Spend spend,HttpSession session) {
-
-		/*ResultInfo result = new ResultInfo();
-		try {
-			spend.setEntry_person((String) session.getAttribute("name"));
-			//int rows = spendService.toAddSpend(spend);
-
-			if (rows >= 1) {
-
-				result.code = 0;
-				result.msg = "successfully!!";
-				return result;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			result.code = -1;
-			result.msg = "error";
-		}
-	*/
-		return null;
-	}
-
-	/**
 	 * 动态显示
 	 */
 	@RequestMapping("/toShowAddSpend")
@@ -207,6 +174,7 @@ public class SpendController {
 	public ModelAndView toShowfinancialSpend(Spend spend, long id) {
 		ModelAndView mv = new ModelAndView();
 		List<BranchOffice> branchOfficeList = branchofficeService.findArea();
+		List<Expend> expends=spendService.findImgBySpendId(id);
 		if (branchOfficeList != null) {
 			
 		}
@@ -220,7 +188,7 @@ public class SpendController {
 		}else{
 			 times = sdf.format(spend.getTimes());
 		}
-	
+		mv.addObject("expends",expends);
 		mv.addObject("spend", spend);
         mv.addObject("times",times);
 		mv.setViewName("ShowfinancialSpend");
@@ -242,7 +210,6 @@ public class SpendController {
 		spend.setAuditor((String) session.getAttribute("name"));
 		spend.setRole((String) session.getAttribute("roletype"));
 		ResultInfo result = new ResultInfo();
-
 		try {
 			int rows = spendService.updatePasszc(spend);
 
@@ -298,5 +265,29 @@ public class SpendController {
 
 		return mv;
 	}
+	
+	
+	/**
+	 * 查询支出图片
+	 * @param id
+	 * @return 
+	 */
+	@RequestMapping("/findImgBySpendId")
+	public Map<String,Object> findImgBySpendId(Long id ){
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Expend> expend=spendService.findImgBySpendId(id);
+		if(expend.size()>0){
+			map.put("list",expend);
+			
+			map.put("code", 1);
+			map.put("msg","查询图片成功");
+		}else{
+			map.put("code", 1);
+			map.put("msg","暂无图片");
+		}
+		return map;
+	}
+	
+	
 	
 }

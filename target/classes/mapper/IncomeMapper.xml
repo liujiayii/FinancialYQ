@@ -64,4 +64,27 @@
 		</where>
 		order by creat_time desc,state asc
 	</select>
+	
+	
+	
+	
+	
+	
+	<!-- List<Income> findIncomeImgById(Long id ); -->
+	<select id="findIncomeImgById" resultType="com.fendo.entity.Receipt">
+		
+		select
+			*
+		from
+			t_receipt
+		where
+			income_id=#{id}
+	</select>
+	
+	
+	
+	
+	
+	
+	
 </mapper>

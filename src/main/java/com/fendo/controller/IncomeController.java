@@ -2,6 +2,7 @@ package com.fendo.controller;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fendo.entity.BranchOffice;
 import com.fendo.entity.Income;
 import com.fendo.entity.IncomeItem;
+import com.fendo.entity.Receipt;
 import com.fendo.entity.Staff;
 import com.fendo.service.BranchOfficeService;
 import com.fendo.service.IncomeService;
@@ -139,7 +141,24 @@ public class IncomeController {
 		Map<String,Object> map = incomeService.toAddSpend(id, files);
 		return map;
 	}
-
+	
+	
+	@RequestMapping("/findIncomeImgById")
+	public Map<String,Object> findIncomeImgById(Long id ){
+		Map<String,Object> map = new HashMap<String,Object>();
+		List<Receipt> receipt = incomeService.findIncomeImgById(id);
+		if(receipt.size()>0){
+			map.put("list",receipt);
+			map.put("code", 1);
+			map.put("msg","查询图片成功");
+		}else{
+			map.put("code", 1);
+			map.put("msg","暂无图片");
+		}
+		return map;
+	}
+	
+	
 	/**
 	 * 动态显示
 	 */
@@ -173,9 +192,10 @@ public class IncomeController {
 	 */
 	@RequestMapping("/toShowfinancialIncome")
 	public ModelAndView toShowfinancialIncome(Income income, long id) {
-	
+		
 		ModelAndView mv = new ModelAndView();
 		List<BranchOffice> branchOfficeList = branchofficeService.findArea();
+		List<Receipt> receipts = incomeService.findIncomeImgById(id);
 		if (branchOfficeList != null) {
 			
 		}
@@ -189,7 +209,7 @@ public class IncomeController {
 		}else{
 			 times = sformat.format(income.getTimes());
 		}
-	
+		mv.addObject("receipts",receipts);
 		mv.addObject("income", income);
 		mv.addObject("times", times);
 		System.out.println(times);

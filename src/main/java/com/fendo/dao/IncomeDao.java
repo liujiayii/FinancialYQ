@@ -8,6 +8,7 @@ import com.fendo.entity.Finance;
 import com.fendo.entity.Income;
 import com.fendo.entity.IncomeItem;
 import com.fendo.entity.IncomeVo;
+import com.fendo.entity.Receipt;
 import com.fendo.entity.Staff;
 /**
  * 收入
@@ -36,4 +37,8 @@ public interface IncomeDao {
 	 int toUpdateIncome(Income income);
 	 /* 通过条件查询*/
 	 List<Income> findBySelective(Income income);
+	 
+	 List<Receipt> findIncomeImgById(Long id );
+	 
+	 
 }

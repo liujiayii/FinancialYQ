@@ -9,10 +9,11 @@
    			 left join t_branch_office b on s.district_id=b.area_code
     		 where b.area=#{area}
   		  </select>
-	<!-- 分公司查询-->
+	<!-- 查询所有分公司信息-->
 	<select id="getBranchOffice" resultType="com.fendo.entity.BranchOffice">
 		select * from
-		t_branch_office
+        t_branch_office bo
+        ORDER BY bo.id DESC
 	</select>
 	<!-- 查询地区名称 -->
 	<select id="findArea" resultType="com.fendo.entity.BranchOffice">

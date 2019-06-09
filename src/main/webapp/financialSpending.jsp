@@ -129,21 +129,21 @@
 		var url = "financialSpendbyarea.action?area=" + area;
 		$.getJSON(url, function(res) {
 			var data = [];
-			/* var b="<a href='printIncome.action?id="+res[i].id+"'><b style='color:#00a2ff'>打印</b></a>&nbsp;&nbsp;&nbsp;<a href='toShowfinancialIncome.action?id="+res[i].id+"' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id="+res[i].id+"' ><b style='color:#00a2ff'>作废</b></a>";
+			/* var b="<a href='printIncome.action?id="+res[i].id+"'><b style='color:#00a2ff'>打印</b></a>&nbsp;&nbsp;&nbsp;<a href='toShowfinancialSpend.action?id="+res[i].id+"' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id="+res[i].id+"' ><b style='color:#00a2ff'>作废</b></a>";
 			
-			var c="<a href='toShowfinancialIncome.action?id="+res[i].id+"' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id="+res[i].id+"' ><b style='color:#00a2ff'>作废</b></a>"; */
+			var c="<a href='toShowfinancialSpend.action?id="+res[i].id+"' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id="+res[i].id+"' ><b style='color:#00a2ff'>作废</b></a>"; */
 			for (var i = 0; i < res.length; i++) {
 				data[i] = {
 					序号 : res[i].id,
 
 					摘要 : res[i].digest,
 					总金额 : res[i].sum,
-					时间 : getTime(res[i].times),
+					时间 : getTime(res[i].creat_time),
 					状态 : res[i].state == 0 ? "<img src='images/notEffect.png'/>" : "<img src='images/effect.png'/>",
-					操作 : res[i].state == 0 ? "<a href='toShowfinancialIncome.action?id=" + res[i].id
+					操作 : res[i].state == 0 ? "<a href='toShowfinancialSpend.action?id=" + res[i].id
 							+ "' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id=" + res[i].id
 							+ "' ><b style='color:#00a2ff'>作废</b></a>" : "<a href='printIncome.action?id=" + res[i].id
-							+ "'><b style='color:#00a2ff'>打印</b></a>&nbsp;&nbsp;&nbsp;<a href='toShowfinancialIncome.action?id=" + res[i].id
+							+ "'><b style='color:#00a2ff'>打印</b></a>&nbsp;&nbsp;&nbsp;<a href='toShowfinancialSpend.action?id=" + res[i].id
 							+ "' ><b style='color:#00a2ff'>详情</b></a>&nbsp;&nbsp;&nbsp;<a href='todeleatefinancialIncome.action?id=" + res[i].id
 							+ "' ><b style='color:#00a2ff'>作废</b></a>"
 				};

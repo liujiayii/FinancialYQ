@@ -97,37 +97,38 @@
               Menu[3].show = true
               Menu[3].child[1].show = true
             } else if (res.data[i] == "1006") {
-            	setTimeout(()=>{
-            		$('.sh').css('display','block');
-            		console.log('----')
-            	},1000)
+            	//setTimeout(()=>{
+            		$('.sh').css('display','inline-block');
+            		//console.log('----')
+            	//},1000)
              }
             else if (res.data[i] == "1007") {
-            	setTimeout(()=>{
-            		$('.dy').css('display','block');
-            		console.log('----')
-            	},1000)
+            	//setTimeout(()=>{
+            		$('.dy').css('display','inline-block');
+            	//	console.log('----')
+            //	},1000)
              }
              else if (res.data[i] == "1008") {
-            	setTimeout(()=>{
-            		$('.zf').css('display','block');
-            		console.log('----')
-            	},1000)
+            //	setTimeout(()=>{
+            		$('.zf').css('display','inline-block');
+            	//	console.log('----')
+            //	},1000)
              }
              else if (res.data[i] == "1015") {
              	setTimeout(()=>{
              		/* $('.bgbtn').css('display','block')
              		$('.bgbtn').css('margin','0,auto') */
-             		document.getElementById("shouru").style.display="block";
-             	
+             		$('#shouru').css('display','inline-block');
+             		//document.getElementById("shouru").style.display="block";
              		console.log('----')
              	},1000)
               }
             else if (res.data[i] == "1016") {
               setTimeout(()=>{
-              		document.getElementById("sub_form").style.display="block";
-              		console.log('----')
-              	},1000)
+            	  $('#sub_form').css('display','inline-block')
+              		//document.getElementById("sub_form").style.display="block";
+              	//	console.log('----')
+             	},1000)
                } 
           } 
         } else {
@@ -142,7 +143,6 @@
   </script>
 </head>
 <body>
-
 	<div class="container">
 		<div class="head_box">
 			<div class="head">

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.fendo.entity.BranchOffice;
 
 public interface BranchOfficeDao {
-	/* 查询分公司地区*/
+	/* 查询所有分公司信息*/
 	List<BranchOffice> getBranchOffice();
 	
 	/*查询地区名称*/

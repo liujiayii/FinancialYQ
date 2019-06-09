@@ -33,9 +33,9 @@
 			<input type="button" value="返回" class="sub-but" onclick="javascript:history.back(-1);" />
 		</div>
 		
-		<div class="control_tab">
+		<!-- <div class="control_tab">
 			<input type="button" style='display:none' value="通过" 'class="bgbtn" id="sub_form" onclick="pass()">
-		</div>
+		</div> -->
 	</div>
 	<div class="control">
 		<form action="##" id="updateState" method="post" enctype="multipart/form-data">
@@ -78,32 +78,32 @@
 					<td colspan="3" class="amount">金额</td>
 				</tr>
 				<tr>
-					<td><input type="text" name="income_name" value="${income.income_name}" maxlength="30" style="border: none; float: left" id="number1"></td>
-					<td><input type="text" name="digest" value="${income.digest}" maxlength="30" style="border: none; float: left" id="digest1"></td>
+					<td><input type="text" name="income_name" value="${income.income_name}" maxlength="30" style="border: none; float: left;width:100%" id="number1"></td>
+					<td><input type="text" name="digest" value="${income.digest}" maxlength="30" style="border: none; float: left;width:100%" id="digest1"></td>
 					<td colspan="3"><input type="text" name="money" value="${income.money}" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left" id="sum1"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="income_name1" value="${income.income_name1}" maxlength="30" style="border: none; float: left" id="number2"></td>
-					<td><input type="text" name="digest1" value="${income.digest1}" maxlength="30" style="border: none; float: left" id="digest2"></td>
+					<td><input type="text" name="income_name1" value="${income.income_name1}" maxlength="30" style="border: none; float: left;width:100%" id="number2"></td>
+					<td><input type="text" name="digest1" value="${income.digest1}" maxlength="30" style="border: none; float: left;width:100%" id="digest2"></td>
 					<td colspan="3"><input type="text" name="money1" id="sum2" value="${income.money1}" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="income_name2" value="${income.income_name2}" maxlength="30" style="border: none; float: left" id="number3"></td>
-					<td><input type="text" name="digest2" value="${income.digest2}" maxlength="30" style="border: none; float: left" id="digest3"></td>
+					<td><input type="text" name="income_name2" value="${income.income_name2}" maxlength="30" style="border: none; float: left;width:100%" id="number3"></td>
+					<td><input type="text" name="digest2" value="${income.digest2}" maxlength="30" style="border: none; float: left;width:100%" id="digest3"></td>
 					<td colspan="3"><input type="text" name="money2" id="sum3" value="${income.money2}" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="income_name3" value="${income.income_name3}" maxlength="30" style="border: none; float: left" id="number4"></td>
-					<td><input type="text" name="digest3" value="${income.digest3}" maxlength="30" style="border: none; float: left" id="digest4"></td>
+					<td><input type="text" name="income_name3" value="${income.income_name3}" maxlength="30" style="border: none; float: left;width:100%" id="number4"></td>
+					<td><input type="text" name="digest3" value="${income.digest3}" maxlength="30" style="border: none; float: left;width:100%" id="digest4"></td>
 					<td colspan="3"><input type="text" name="money3" id="sum4" value="${income.money3}" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="income_name4" value="${income.income_name4}" maxlength="30" style="border: none; float: left" id="number5"></td>
-					<td><input type="text" name="digest4" value="${income.digest4}" maxlength="30" style="border: none; float: left" id="digest5"></td>
+					<td><input type="text" name="income_name4" value="${income.income_name4}" maxlength="30" style="border: none; float: left;width:100%" id="number5"></td>
+					<td><input type="text" name="digest4" value="${income.digest4}" maxlength="30" style="border: none; float: left;width:100%" id="digest5"></td>
 					<td colspan="3"><input type="text" name="money4" id="sum5" value="${income.money4}" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td colspan="2" width="400px"></td>
+					<td colspan="2" width="400px"><input type="text" name="remark" value="${income.remark}" style="border: none;width:100%" maxlength="100" placeholder="请输入备注:" /></td>
 					<td width="105px" id="sumAdd" name="sum">合计</td>
 					<td width="110px" id="td_Amount"><input type="text" value="${income.sum }" name="sum" readonly style="border: none"></td>
 				</tr>
@@ -119,10 +119,10 @@
 				</c:forEach>
 			</div> 
 			<!-- ***************************************************************************** -->
-			<!-- <p class="control_tab">
+			 <p class="control_tab">
 				<input type="button"  style='text-align:center;background: #568bfc;display:none' value="通过" 'class="bgbtn" id="shouru" onclick="pass()">
 
-			</p> -->
+			</p> 
 		</form>
 	</div>
 </div>
@@ -262,7 +262,7 @@
 	//如果状态是1的话通过按钮不显示
 	var state = $("#state").val();
 	if (state == 1) {
-
+       
 		$("#shouru").attr("type", "hidden");
 	}
 </script>

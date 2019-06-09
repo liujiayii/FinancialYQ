@@ -14,7 +14,7 @@ public interface BranchOfficeService {
 	List<BranchOffice> findArea3(String area);
 	List<BranchOffice> getSalesMan();
 	/*分公司增加*/
-	public void addBranchOffice(BranchOffice branchOffice);
+	public int addBranchOffice(BranchOffice branchOffice);
 	/*分公司修改*/
 	int updateBranchOffice(BranchOffice branchOffice);
 	

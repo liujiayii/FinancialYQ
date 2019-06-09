@@ -25,12 +25,7 @@ public class UserServiceImpl implements UserService {
 	/*用户登录*/
 	@Override
 	public t_user login(t_user user) {
-		t_user user1 = userDao.findUserByNameAndPwd(user);
-		if (user1 != null) {
-			System.out.println("找到了");
-		}
-		return user1;
-
+		return userDao.findUserByNameAndPwd(user);
 	}
 	/*添加角色*/
 	@Override

@@ -94,6 +94,7 @@ public class SpendController {
 		if (incomeList != null) {
 			
 		}
+		System.out.println("incomeList"+incomeList);
 		return incomeList;
 	}
 

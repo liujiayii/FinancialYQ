@@ -2600,8 +2600,10 @@ public class FinanceController {
 	@ResponseBody
 	public Map<String,Object> toAddIncome(@RequestBody Spend spend,HttpSession session) {
 		System.out.println("----->>>"+spend.toString());
-		//spend.setEntry_person(session.getAttribute("username").toString());
+		spend.setEntry_person(session.getAttribute("name").toString());
+		System.out.println("spend"+spend);
 		Map<String,Object> map = spendService.toAddSpend(spend);
+		System.out.println("map"+map);
 		return map;
 	}
 	

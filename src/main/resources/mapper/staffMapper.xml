@@ -34,6 +34,7 @@
 		where s.district_id=b.id
 		and s.branch_id=cd.id
 	    and s.post_id = c.id
+	    order by s.id desc
 	</select>
 	<!-- 添加员工信息     是否转正 0否  1是-->
 	<insert id="toAddStaff" parameterType="com.fendo.entity.Staff">

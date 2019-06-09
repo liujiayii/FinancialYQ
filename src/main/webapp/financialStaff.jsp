@@ -49,7 +49,7 @@
 				"tableId" : "cs_table", //必须
 				"headers" : [ "序号", "工号", "姓名", "地区", "部门", "职位", "电话", "时间", "操作" ], //必须
 				"data" : data, //必须
-				"displayNum" : 5, //必须  默认 10
+				"displayNum" : 8, //必须  默认 10
 				"groupDataNum" : 10
 			//可选  默认 10
 			});
@@ -135,7 +135,7 @@
 				"tableId" : "cs_table", //必须
 				"headers" : [ "序号", "工号", "姓名", "地区", "部门", "职位", "电话", "时间", "操作" ], //必须
 				"data" : data, //必须
-				"displayNum" : 5, //必须  默认 10
+				"displayNum" : 8, //必须  默认 10
 				"groupDataNum" : 10
 			//可选  默认 10
 			});

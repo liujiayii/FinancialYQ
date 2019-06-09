@@ -82,7 +82,7 @@
 				"tableId" : "cs_table", //必须
 				"headers" : [ "序号", "名称", "区划代码", "时间", "操作" ], //必须
 				"data" : data, //必须
-				"displayNum" : 5, //必须  默认 10
+				"displayNum" : 8, //必须  默认 10
 				"groupDataNum" : 10
 			//可选  默认 10
 			});
@@ -147,11 +147,11 @@
 					window.location.href = "toCompany.action";
 
 				} else {
-					window.wxc.xcConfirm("抱歉！", window.wxc.xcConfirm.typeEnum.error);
+					window.wxc.xcConfirm("抱歉！公司名或区划代码重复", window.wxc.xcConfirm.typeEnum.error);
 				}
 			},
 			error : function(result) {
-				window.wxc.xcConfirm("抱歉！出了一点小问题", window.wxc.xcConfirm.typeEnum.error);
+				window.wxc.xcConfirm("抱歉！公司名或区划代码重复", window.wxc.xcConfirm.typeEnum.error);
 			}
 		});
 	}
@@ -206,11 +206,11 @@
 					window.location.href = "toCompany.action";
 
 				} else {
-					window.wxc.xcConfirm("抱歉！出了一点小问题", window.wxc.xcConfirm.typeEnum.error);
+					window.wxc.xcConfirm("抱歉！公司名或区划代码重复", window.wxc.xcConfirm.typeEnum.error);
 				}
 			},
 			error : function(result) {
-				window.wxc.xcConfirm("抱歉！出了一点小问题", window.wxc.xcConfirm.typeEnum.error);
+				window.wxc.xcConfirm("抱歉！公司名或区划代码重复", window.wxc.xcConfirm.typeEnum.error);
 			}
 		});
 	}

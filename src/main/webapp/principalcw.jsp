@@ -77,10 +77,10 @@
 			<table id="myTable" class="control_tab controls_table" style="text-align: center; width: 865px;" border="1">
 				<tr>
 					<td width="143px" class="td_pos" onclick="addText($(this))"></td>
-					<td colspan="3" style="position: relative"><img class="tab_img" src="images/tab_add.png" id="addRow"> <img src="images/tab_det.png" id="deleteRow" onclick="delRow('del1');"> <input type="text" name="" class="amount" value="" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
+					<td colspan="3" style="position: relative"><img class="tab_img" src="images/tab_add.png" id="addRow"> <img src="images/tab_det.png" id="deleteRow" onclick="delRow('del1');"> <input type="text" name="" class="amount" value="" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left;width:100%"></td>
 				</tr>
 				<tr>
-					<td colspan="2" width="400px"><input type="text" name="remark" value="${finance.remark}" style="border: none" maxlength="100" placeholder="请输入备注:" /></td>
+					<td colspan="2" width="400px"><input type="text" name="remark" value="${finance.remark}" style="border: none;width:100%" maxlength="100" placeholder="请输入备注:" /></td>
 					<td width="105px" id="sumAdd">合计</td>
 					<td width="110px" id="td_Amount"><input type="text" name="sum" value="" readonly style="border: none"></td>
 					<!-- <td class="width_01"><input type="hidden" name="types"  id="types" value=""></td> -->
@@ -167,7 +167,7 @@
 			var newRow = myTable.insertRow(rowIndex);
 			newRow.id = "row" + rowIndex;
 			newRow.className = "pos";
-			newRow.innerHTML = '<td class="td_pos" width="116px" onclick="addText($(this))"></td><td colspan="3" style="position:relative"><input type="text" name=""class="amount" value="" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border:none;float:left"><img src="images/tab_det.png" id="deleteRow" onclick=\"delRow(row'
+			newRow.innerHTML = '<td class="td_pos" width="116px" onclick="addText($(this))"></td><td colspan="3" style="position:relative"><input type="text" name=""class="amount" value="" onkeyup="(this)" onblur="clearNoNum(this)" maxlength="12" style="border:none;float:left"><img src="images/tab_det.png" id="deleteRow" onclick=\"delRow(row'
 					+ rowIndex + ');\"></td>'
 		}
 	}
@@ -188,6 +188,19 @@
 	$(function() {
 		navSelected(0);
 	})
+	function clearNoNum(obj) {
+		//先把非数字的都替换掉，除了数字和.
+		obj.value = obj.value.replace(/[^\d.]/g, "");
+		//保证只有出现一个.而没有多个.
+		obj.value = obj.value.replace(/\.{2,}/g, ".");
+		//必须保证第一个为数字而不是.
+		obj.value = obj.value.replace(/^\./g, "");
+		//保证.只出现一次，而不能出现两次以上
+		obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+		//只能输入两个小数
+		obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3');
+		sum();
+	}
 </script>
 <!-- 合计 -->
 <script type="text/javascript">

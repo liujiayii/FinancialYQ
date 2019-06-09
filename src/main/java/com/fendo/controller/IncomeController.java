@@ -129,6 +129,7 @@ public class IncomeController {
 	@RequestMapping(value = "/toAddIncome", method = RequestMethod.POST)
 	@ResponseBody
 	public Map<String,Object> toAddIncome (@RequestBody Income income,HttpSession session) {
+		income.setEntry_person((String) session.getAttribute("name"));
 		Map<String,Object> map  =  incomeService.toAddIncome(income);
 		return map;
 	}
@@ -203,7 +204,7 @@ public class IncomeController {
 		
 		income = incomeService.findById1(id);
 		SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
-	
+	    System.out.println("income"+income);
 		if(income.getTimes()==null){
 			 times="";
 		}else{
@@ -265,19 +266,7 @@ public class IncomeController {
 		income = incomeService.findById1(id);
 		System.out.println("income"+income);
 		if (branchOfficeList != null) {
-			
 		}
-	
-	/*	// 时间格式转换
-		SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
-		String times;
-		if(income.getTimes()==null){
-			 times="";
-		}else{
-			 times = sformat.format(income.getTimes());
-		}*/
-		
-		
 		SimpleDateFormat sformat = new SimpleDateFormat("yyyy年MM月dd日");
 		String strDate = sformat.format(income.getCreat_time());
 		BigDecimal moneys = income.getSum();

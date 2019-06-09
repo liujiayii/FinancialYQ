@@ -49,32 +49,32 @@
 					<td colspan="3" class="amount">金额</td>
 				</tr>
 				<tr>
-					<td><input type="text" name="spend_name" value="" maxlength="30" style="border: none; float: left" id="number1"></td>
-					<td><input type="text" name="digest" value="" maxlength="30" style="border: none; float: left" id="digest1"></td>
+					<td><input type="text" name="spend_name" value="" maxlength="30" style="border: none; width: 100%; float: left" id="number1"></td>
+					<td><input type="text" name="digest" value="" maxlength="30" style="border: none; float: left;width:100%" id="digest1"></td>
 					<td colspan="3"><input type="text" name="money" value="" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left" id="sum1"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="spend_name1" value="" maxlength="30" style="border: none; float: left" id="number2"></td>
-					<td><input type="text" name="digest1" value="" maxlength="30" style="border: none; float: left" id="digest2"></td>
+					<td><input type="text" name="spend_name1" value="" maxlength="30" style="border: none; width: 100%;float: left" id="number2"></td>
+					<td><input type="text" name="digest1" value="" maxlength="30" style="border: none; float: left;width:100%" id="digest2"></td>
 					<td colspan="3"><input type="text" name="money1" id="sum2" value="" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="spend_name2" value="" maxlength="30" style="border: none; float: left" id="number3"></td>
-					<td><input type="text" name="digest2" value="" maxlength="30" style="border: none; float: left" id="digest3"></td>
+					<td><input type="text" name="spend_name2" value="" maxlength="30" style="border: none; width: 100%;float: left" id="number3"></td>
+					<td><input type="text" name="digest2" value="" maxlength="30" style="border: none; float: left;width:100%" id="digest3"></td>
 					<td colspan="3"><input type="text" name="money2" id="sum3" value="" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="spend_name3" value="" maxlength="30" style="border: none; float: left" id="number4"></td>
-					<td><input type="text" name="digest3" value="" maxlength="30" style="border: none; float: left" id="digest4"></td>
+					<td><input type="text" name="spend_name3" value="" maxlength="30" style="border: none;width: 100%; float: left" id="number4"></td>
+					<td><input type="text" name="digest3" value="" maxlength="30" style="border: none; float: left;width:100%" id="digest4"></td>
 					<td colspan="3"><input type="text" name="money3" id="sum4" value="" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td><input type="text" name="spend_name4" value="" maxlength="30" style="border: none; float: left" id="number5"></td>
-					<td><input type="text" name="digest4" value="" maxlength="30" style="border: none; float: left" id="digest5"></td>
+					<td><input type="text" name="spend_name4" value="" maxlength="30" style="border: none;width: 100%; float: left" id="number5"></td>
+					<td><input type="text" name="digest4" value="" maxlength="30" style="border: none; float: left;width:100%" id="digest5"></td>
 					<td colspan="3"><input type="text" name="money4" id="sum5" value="" class="amount" onkeyup="clearNoNum(this)" onblur="clearNoNum(this)" maxlength="12" style="border: none; float: left"></td>
 				</tr>
 				<tr>
-					<td colspan="2" width="400px"><input type="text" name="remark" value="${finance.remark}" style="border: none" maxlength="100" placeholder="请输入备注:" /></td>
+					<td colspan="2" width="400px"><input type="text" name="remark" value="${finance.remark}" style="border: none;width:100%" maxlength="100" placeholder="请输入备注:" /></td>
 					<td width="105px" id="sumAdd" name="sum">合计</td>
 					<td width="110px" id="td_Amount"><input type="text" value="" name="sum" readonly style="border: none"></td>
 				</tr>
@@ -84,7 +84,9 @@
 				<i class="layui-icon">&#xe67c;</i>选择图片
 			</button>
 			<p class="control_tab">
-				<input type="button" value="提交" class="bgbtn" id="sub_form" onclick="add()"> <input type="button" value="取消" class="bgbtn" style="background: #f45b63" onclick="javascript:history.back(-1);">
+				<input type="button" value="提交" class="bgbtn" id="sub_form" onclick="add()">
+				<input type="button" value="保存" class="bgbtn" id="sub_form1" style="display:none" onclick="javascript:history.back(-1);">
+				 <input type="button" value="取消" class="bgbtn" style="background: #f45b63" onclick="javascript:history.back(-1);">
 			</p>
 		</form>
 		<input type="hidden" value="" id="id">
@@ -193,6 +195,8 @@
 				if (result.code == 1) {
 					if(window.confirm('是否添加图片？')){
 						$('#test1').css('display','block')
+						$('#sub_form').css('display','none')
+						$('#sub_form1').css('display','inline-block')
 						$("#id").val(result.id);
 		                 //alert("确定");
 		                 return true;

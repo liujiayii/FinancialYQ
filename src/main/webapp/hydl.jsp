@@ -15,7 +15,9 @@
 </style>
 <body>			
 <p>欢迎使用本系统</p>				
-				
+			<div style="width:100%;height:100%;">
+			<img style="width:100%;height:100%;" src="/images/shouye.png"/>		
+	</div>		
 </body>				
 <jsp:include page="footer.jsp"></jsp:include>
 </html>

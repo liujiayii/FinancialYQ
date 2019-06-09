@@ -85,11 +85,13 @@
 				<div class="right">
 					<span class="vertical">财务主管</span>
 					<span class="vertical" id="spanone"></span>
-					<span class="vertical">记&nbsp;&nbsp;&nbsp;&nbsp;账</span>
-					<span class="vertical" id="spantwo"></span>
-					<span class="vertical">出&nbsp;&nbsp;&nbsp;&nbsp;纳</span>
-<!-- 					<span class="vertical">审&nbsp;&nbsp;&nbsp;&nbsp;核</span>
- -->					<span class="vertical" ></span>
+					
+					<span class="vertical">记&nbsp;&nbsp;&nbsp;&nbsp;帐</span>
+<!-- 					
+ -->					<span class="vertical" id="spanthree"></span>
+ 
+                    <span class="vertical">出&nbsp;&nbsp;&nbsp;&nbsp;纳</span>
+                    
 					<span class="vertical">经&nbsp;&nbsp;&nbsp;&nbsp;办</span>
 					<span class="vertical">${income.name}</span>
 				</div>
@@ -110,14 +112,14 @@
 		var name="${income.auditor}";
 		
 		var roletype="${income.role}";
-		
-	 	var entry_person="${income.entry_person}";
-		$("#spantwo").html(entry_person);
+		var entry_person="${income.entry_person}";
+	
 		if(roletype=='主管'){
 			$("#spanone").html(name);
 			
 		}
 		
+		$("#spanthree").html(entry_person);
 	})
 		function doPrint() {
 	        bdhtml=window.document.body.innerHTML;

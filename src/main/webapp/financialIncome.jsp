@@ -107,7 +107,7 @@
 	});
 
 	//搜索日期
-	$('#inputDate').changes(
+	$('#inputDate').change(
 			function() {
 				var inputDate = $("#inputDate").val().toString();
 

@@ -21,18 +21,16 @@ import com.fendo.service.SalesmanService;
  * 
  *
  * @ClassName: BranceOfficeController
-
- * @description 分公司管理
- *
- * @author HanMeng
+ * @description 财务管理模块中的分公司管理
+ * @author HanMeng zhoujiaxin
  * @createDate 2018年9月14日 上午9:40:25
  */
 
 @Controller
 public class BranceOfficeController {
-	@Autowired
+	
+    @Autowired
 	private BranchOfficeService branchofficeService;
-
 	@Autowired
 	SalesmanService salesmanService;
 	@Autowired
@@ -41,8 +39,7 @@ public class BranceOfficeController {
 	FinanceService financeService;
 
 	/**
-	 * 跳转到公司管理页面
-	 * 
+	 * 跳转到财务管理模块中的分公司管理界面
 	 * @return
 	 */
 	@RequestMapping("/toCompany")
@@ -61,7 +58,6 @@ public class BranceOfficeController {
 	@RequestMapping("/branchofficeList")
 	@ResponseBody
 	public List<BranchOffice> getBranchOffice() {
-		
 		List<BranchOffice> list = new ArrayList<>();
 		try {
 			list = branchofficeService.getBranchOffice();
@@ -107,31 +103,17 @@ public class BranceOfficeController {
 	@RequestMapping(value = "/toAddbranchoffice", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultInfo toAddBranch(@RequestBody BranchOffice branchOffice, HttpSession session) {
-		System.out.println("----------");
-		// 获取当前用户，(向下转型,返回的是一个对象)
-		t_user user = (t_user) session.getAttribute("currUser");
-		
-		//if (user.getRole_type().equals("管理员")||user.getRole_type().equals("记账")||user.getRole_type().equals("财务总监")) {
-			
-
 			ResultInfo result = new ResultInfo();
-		
-			try {
-				branchofficeService.addBranchOffice(branchOffice);
-
-				result.code = 0;
-				result.msg = "成功增加";
-				return result;
-			} catch (Exception e) {
-				e.printStackTrace();
-				result.code = -1;
-				result.msg = "增加分公司失败";
-
-			}
-			return result;
-		//}
-		//return null;
-
+			int myResult = branchofficeService.addBranchOffice(branchOffice);
+			if (myResult==1) {
+			    result.code = 0;
+	            result.msg = "成功增加";
+	            return result;
+            }else{
+                result.code = -1;
+                result.msg = "增加分公司失败";
+                return result;
+            }
 	}
 
 	/**
@@ -146,26 +128,17 @@ public class BranceOfficeController {
 	@RequestMapping(value = "/toUpdatebranchoffice", method = RequestMethod.POST)
 	@ResponseBody
 	public ResultInfo toUpdateBranch(@RequestBody BranchOffice branchOffice, HttpSession session) {
-		t_user user = (t_user) session.getAttribute("currUser");
-	
-		//if (user.getRole_type().equals("管理员")) {
-			
-			ResultInfo result = new ResultInfo();
-			try {
-				int rows = branchofficeService.updateBranchOffice(branchOffice);
-				if (rows >= 1) {
-					System.out.println("分公司修改成功");
-					result.code = 0;
-					result.msg = "successfull";
-				}
-				return result;
-			} catch (Exception e) {
-				result.code = -1;
-				result.msg = "error";
-				return result;
-			}
-		//}
-		//return null;
+		ResultInfo result = new ResultInfo();
+		int myResult = branchofficeService.updateBranchOffice(branchOffice);
+        if (myResult==1) {
+            result.code = 0;
+            result.msg = "successfull";
+            return result;
+        }else{
+            result.code = -1;
+            result.msg = "error";
+            return result;
+        }
 	}
 
 }

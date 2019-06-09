@@ -48,9 +48,6 @@ public class StaffServiceImpl implements StaffService{
 	@Override
 	public List<StaffVo> findStaffInfo() {
 		List<StaffVo> staffVoList = staffDao.findStaffInfo();
-		if(!staffVoList.isEmpty()){
-			System.out.println("查到员工信息："+staffVoList);
-		}
 		return staffVoList;
 	}
 

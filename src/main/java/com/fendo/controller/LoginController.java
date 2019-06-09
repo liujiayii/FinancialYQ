@@ -52,7 +52,7 @@ public class LoginController {
 	 * @param request 请求
 	 * @return
 	 * 
-	 * @author lhj
+	 * @author lhj zhoujiaxin
 	 * @throws Exception
 	 * 
 	 */
@@ -60,77 +60,57 @@ public class LoginController {
 	@RequestMapping("/login")
 	@ResponseBody
 	public ModelAndView login(HttpSession session, t_user user, HttpServletRequest request) throws Exception {
-		// 从session中获取随机数
-		// String validateCode= (String) session.getAttribute("validateCode");
-
 		String sstr = null;
 		String result = null;
 		String auth_code = null;
-		try {
-			//获取用户的登录信息
-			sstr = (String) session.getAttribute("currUser").toString();
-			System.out.println(sstr + "tttttttttttttttttttttttttttttttttttttttttttttt");
-			// 前端输入的值
-			auth_code = request.getParameter("auth_code").toString();
-			System.out.println("auth_code" + auth_code + "888888888888888888888888888888888888888888888888888888");
-			// 验证码获取的结果值
-			result = (String) session.getAttribute("result").toString();
-		} finally {
-			// TODO: handle finally clause
+		//获取用户的登录信息
+	    if(session.getAttribute("currUser")!=null){
+	        sstr = (String) session.getAttribute("currUser").toString();
+	    }
+		// 获取用户输入的验证码
+		auth_code = request.getParameter("auth_code").toString();
+		// 获取系统生成的验证码
+		result = (String) session.getAttribute("result").toString();
+		ModelAndView modelAndView = new ModelAndView();
+		//判断用户是否登录，如果没有登录则登录，如果登录完成则跳转到登录完成页面
+		if (sstr == null) {
+			// 再加密
+			String encryptPwd = DesUtil.encode("cwguanli", user.getPassword());
+			String md5Pwd = MD5Encrypt.MD5Encode(encryptPwd);
+			user.setPassword(md5Pwd);
+			t_user users = userService.login(user);
+			if (users != null) {
+				// 设置当前登录用户的角色
+				session.setAttribute("roletype", users.getRole_type());
+				// 设置当前用户的用户名
+				session.setAttribute("username", users.getUsername());
+				session.setAttribute("name", users.getName());
+				// 设置当前用户
+				session.setAttribute("currUser", users);
+				if (result == null) {
+					modelAndView.setViewName("hydl");
 
-			ModelAndView modelAndView = new ModelAndView();
-			//判断用户是否登录，如果没有登录则登录，如果登录完成则跳转到登录完成页面
-			if (sstr == null) {
-				t_user users = new t_user();
-				String pwd = user.getPassword();
+				} else if (result.equals(auth_code)) {
 
-				// 再加密
-				String encryptPwd = DesUtil.encode("cwguanli", user.getPassword());
-
-				String md5Pwd = MD5Encrypt.MD5Encode(encryptPwd);
-
-				user.setPassword(md5Pwd);
-				users = userService.login(user);
-
-				ResultInfo resul = new ResultInfo();
-				if (users != null) {
-					// 设置当前登录用户的角色
-
-					session.setAttribute("roletype", users.getRole_type());
-					// 设置当前用户的用户名
-					session.setAttribute("username", users.getUsername());
-					session.setAttribute("name", users.getName());
-					// 设置当前用户
-					session.setAttribute("currUser", users);
-					System.out.println(users.getStatus() + "666666666666666666666666666666666666666666");
-
-					if (result == null) {
-						modelAndView.setViewName("hydl");
-
-					} else if (result.equals(auth_code)) {
-
-						if (users.getRole_type().equals("行政")) {
-							System.out.println("*******************");
-							modelAndView.setViewName("financialStaff");
-						} else {
-							modelAndView.setViewName("home_page");
-						}
-
+					if (users.getRole_type().equals("行政")) {
+						System.out.println("*******************");
+						modelAndView.setViewName("financialStaff");
 					} else {
-						modelAndView.setViewName("Login");
+						modelAndView.setViewName("home_page");
 					}
 
 				} else {
 					modelAndView.setViewName("Login");
 				}
-				return modelAndView;
-			}
-			
-		    //如果用户已经登录跳转到登录成功的页面你
-			modelAndView.setViewName("hydl");
-			return modelAndView;
-		}
 
+			} else {
+				modelAndView.setViewName("Login");
+			}
+			return modelAndView;
+		}			
+	    //如果用户已经登录跳转到登录成功的页面你
+		modelAndView.setViewName("hydl");
+		return modelAndView;
 	}
 
 	@RequestMapping("/loginTwo")
@@ -242,11 +222,9 @@ public class LoginController {
 		int result = 0;
 		if (cen.equals("-")) {
 			result = start - end;
-			System.out.println(result);
 
 		} else if (cen.equals("+")) {
 			result = start + end;
-			System.out.println(result);
 		}
 		// 不需要计算的
 		randomCode.append(coderesult);

@@ -40,21 +40,47 @@ public class BranchOfficeServiceImpl implements BranchOfficeService{
 	}
 	
 	
-	/*分公司增加*/
+	/*分公司增加-zhoujiaxin*/
 	@Override
-	public void addBranchOffice(BranchOffice branchOffice) {
+	public int addBranchOffice(BranchOffice branchOffice) {
+	    List<BranchOffice> branchOfficeList = branchofficeDao.getBranchOffice();
+	    if (branchOfficeList.size()>0) {
+            for (int i = 0; i < branchOfficeList.size(); i++) {
+                if (branchOffice.getArea().equals(branchOfficeList.get(i).getArea())) {
+                    return -1;
+                }else if (branchOffice.getArea_code().equals(branchOfficeList.get(i).getArea_code())) {
+                    return -1;
+                }
+            }
+        }
 		branchofficeDao.addBranchOffice(branchOffice);
+		return 1;
 		
 	}
-	/*分公司修改*/
+	/*分公司修改-zhoujiaxin*/
 	@Override
 	public int updateBranchOffice(BranchOffice branchOffice) {
+	    List<BranchOffice> branchOfficeList = branchofficeDao.getBranchOffice();
+        if (branchOfficeList.size()>0) {
+            for (int i = 0; i < branchOfficeList.size(); i++) {
+                if (branchOffice.getId().equals(branchOfficeList.get(i).getId())) {
+                    continue;
+                }
+                if (branchOffice.getArea().equals(branchOfficeList.get(i).getArea())) {
+                    return -1;
+                }else if (branchOffice.getArea_code().equals(branchOfficeList.get(i).getArea_code())) {
+                    return -1;
+                }
+            }
+        }
 		int rows = branchofficeDao.updateBranchOffice(branchOffice);
 		if (rows>=1) {
-			System.out.println(rows + "修改成功");
-		}
-		return rows;
+			return 1;
+		}else {
+            return -1;
+        }
 	}
+	
 	@Override
 	public List<BranchOffice> findArea1() {
 		List<BranchOffice> branchOfficeList = branchofficeDao.findArea();
